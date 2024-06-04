@@ -1,0 +1,1 @@
+﻿configure_file ("bullet.png" ${CMAKE_BINARY_DIR} COPYONLY)

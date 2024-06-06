@@ -2,6 +2,9 @@
 #define STATE_H
 
 #include <SFML/Graphics.hpp>
+#include <vector>
+#include <iostream>
+#include "TextureManager.h"
 
 class Game;
 

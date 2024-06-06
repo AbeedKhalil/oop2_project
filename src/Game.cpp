@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "MenuState.h"
 
 Game::Game() : m_Window(sf::VideoMode(1920, 1080), "Age of War 2 Clone"), m_Resources(1000) {
     m_States.push_back(new MenuState(this));
@@ -66,4 +67,8 @@ void Game::spendResources(int amount) {
     if (m_Resources >= amount) {
         m_Resources -= amount;
     }
+}
+
+sf::RenderWindow& Game::getWindow() {
+    return m_Window;
 }

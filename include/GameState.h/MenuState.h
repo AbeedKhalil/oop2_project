@@ -13,6 +13,13 @@ public:
 private:
     sf::Font m_Font;
     sf::Text m_Title;
+    sf::Text m_StartText;
+    sf::Text m_HelpText;
+    sf::Text m_ExitText;
+    sf::Sprite m_BackgroundSprite;
+
+    void handleMouseHover(sf::RenderWindow& window);
+    void handleMouseClick(sf::RenderWindow& window);
 };
 
 #endif // MENUSTATE_H

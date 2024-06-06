@@ -1,8 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <vector>
-#include "MenuState.h"
+#include "State.h"
 
 class Game {
 public:
@@ -14,6 +13,7 @@ public:
     int getResources() const;
     void addResources(int amount);
     void spendResources(int amount);
+    sf::RenderWindow& getWindow();
 
 private:
     void processEvents();
@@ -24,6 +24,5 @@ private:
     std::vector<State*> m_States;
     int m_Resources;
 };
-
 
 #endif // GAME_H

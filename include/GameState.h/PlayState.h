@@ -3,8 +3,8 @@
 
 #include "State.h"
 #include "Unit.h"
+#include "UnitManager.h"
 #include "Building.h"
-#include <vector>
 
 class PlayState : public State {
 public:
@@ -19,6 +19,7 @@ private:
     std::vector<Building*> m_Buildings;
     sf::Font m_Font;
     sf::Text m_ResourceText;
+    sf::Sprite m_BackgroundSprite;
     void updateResources();
     void accumulateResources();
     sf::Clock m_ResourceClock;

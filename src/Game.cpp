@@ -6,9 +6,7 @@ Game::Game() : m_Window(sf::VideoMode(1920, 1080), "Age of War 2 Clone"), m_Reso
 }
 
 Game::~Game() {
-    while (!m_States.empty()) {
-        popState();
-    }
+    clearStates();
 }
 
 void Game::run() {
@@ -24,8 +22,16 @@ void Game::pushState(State* state) {
 }
 
 void Game::popState() {
-    delete m_States.back();
-    m_States.pop_back();
+    if (!m_States.empty()) {
+        delete m_States.back();
+        m_States.pop_back();
+    }
+}
+
+void Game::clearStates() {
+    while (!m_States.empty()) {
+        popState();
+    }
 }
 
 void Game::processEvents() {
@@ -34,10 +40,10 @@ void Game::processEvents() {
         if (event.type == sf::Event::Closed) {
             m_Window.close();
         }
-    }
 
-    if (!m_States.empty()) {
-        m_States.back()->handleInput(event);
+        if (!m_States.empty()) {
+            m_States.back()->handleInput(event);
+        }
     }
 }
 

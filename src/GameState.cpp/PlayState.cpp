@@ -7,10 +7,13 @@
 
 PlayState::PlayState(Game* game) : State(game) {
     m_Units.push_back(new Soldier());  // Create a Soldier unit
-    m_Font.loadFromFile("path/to/font.ttf");
+    m_Font.loadFromFile("MainMenu.otf");
     m_ResourceText.setFont(m_Font);
     m_ResourceText.setCharacterSize(24);
     m_ResourceText.setPosition(10, 10);
+
+    // Load background texture
+    m_BackgroundSprite.setTexture(TextureManager::getInstance().getTexture("Play.png"));
 }
 
 PlayState::~PlayState() {
@@ -59,6 +62,7 @@ void PlayState::update() {
 }
 
 void PlayState::render(sf::RenderWindow& window) {
+    window.draw(m_BackgroundSprite);  // Draw the background
     for (auto& unit : m_Units) {
         unit->render(window);
     }

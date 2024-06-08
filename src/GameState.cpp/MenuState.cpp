@@ -34,6 +34,10 @@ MenuState::MenuState(Game* game) : State(game) {
 
     // Load background texture
     m_BackgroundSprite.setTexture(TextureManager::getInstance().getTexture("MainMenu.png"));
+
+    // Load and play background music
+    SoundManager::getInstance().loadMusic("path/to/background_music.ogg");
+    SoundManager::getInstance().playMusic();
 }
 
 void MenuState::handleInput(sf::Event event) {

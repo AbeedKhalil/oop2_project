@@ -1,4 +1,6 @@
 ﻿configure_file ("bullet.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("Textures/MainMenu.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("Textures/Help.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("Textures/Play.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("Textures/PlayBlur.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("Fonts/MainMenu.otf" ${CMAKE_BINARY_DIR} COPYONLY)

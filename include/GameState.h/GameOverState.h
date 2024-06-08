@@ -1,25 +1,23 @@
-#ifndef PAUSESTATE_H
-#define PAUSESTATE_H
+#ifndef GAMEOVERSTATE_H
+#define GAMEOVERSTATE_H
 
 #include "State.h"
 
-class PauseState : public State {
+class GameOverState : public State {
 public:
-    PauseState(Game* game);
+    GameOverState(Game* game);
     void handleInput(sf::Event event) override;
     void update() override;
     void render(sf::RenderWindow& window) override;
 
 private:
     sf::Font m_Font;
-    sf::Text m_PauseText;
-    sf::Text m_ResumeText;
+    sf::Text m_GameOverText;
+    sf::Text m_RestartText;
     sf::Text m_ExitText;
-    sf::RenderTexture m_RenderTexture;
-    sf::Sprite m_BackgroundSprite;
 
     void handleMouseHover(sf::RenderWindow& window);
     void handleMouseClick(sf::RenderWindow& window);
 };
 
-#endif // PAUSESTATE_H
+#endif // GAMEOVERSTATE_H

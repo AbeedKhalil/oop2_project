@@ -14,6 +14,7 @@ public:
     void addResources(int amount);
     void spendResources(int amount);
     sf::RenderWindow& getWindow();
+    void clearStates();
 
 private:
     void processEvents();

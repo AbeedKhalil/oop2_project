@@ -6,6 +6,7 @@
 class Soldier : public Unit {
 public:
     Soldier();
+    Soldier(float spawnX, float spawnY);
     void update() override;
     void render(sf::RenderWindow& window) override;
 };

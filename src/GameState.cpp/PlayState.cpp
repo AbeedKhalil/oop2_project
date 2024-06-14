@@ -6,7 +6,6 @@
 #include "Building.h"
 
 PlayState::PlayState(Game* game) : State(game) {
-    m_Units.push_back(new Soldier());  // Create a Soldier unit
     m_Font.loadFromFile("MainMenu.otf");
     m_ResourceText.setFont(m_Font);
     m_ResourceText.setCharacterSize(24);
@@ -34,20 +33,22 @@ void PlayState::handleInput(sf::Event event) {
         }
         if (event.key.code == sf::Keyboard::U) {
             if (m_Game->getResources() >= 100) {
-                m_Units.push_back(new Soldier());
+                Unit* newUnit = new Soldier(SPAWN_POSITION_X, SPAWN_POSITION_Y);
+                if (!m_Units.empty()) {
+                    newUnit->setUnitInFront(m_Units.back());
+                }
+                m_Units.push_back(newUnit);
                 m_Game->spendResources(100);
             }
         }
         if (event.key.code == sf::Keyboard::T) {
             if (m_Game->getResources() >= 300) {
-                m_Units.push_back(new Tank());
+                Unit* newUnit = new Tank(SPAWN_POSITION_X, SPAWN_POSITION_Y);
+                if (!m_Units.empty()) {
+                    newUnit->setUnitInFront(m_Units.back());
+                }
+                m_Units.push_back(newUnit);
                 m_Game->spendResources(300);
-            }
-        }
-        if (event.key.code == sf::Keyboard::B) {
-            if (m_Game->getResources() >= 500) {
-                m_Buildings.push_back(new Building("path/to/barracks.png", sf::Vector2f(200, 200)));
-                m_Game->spendResources(500);
             }
         }
     }

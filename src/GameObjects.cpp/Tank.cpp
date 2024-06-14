@@ -1,6 +1,11 @@
 #include "Tank.h"
+#include "Constants.h"
 
-Tank::Tank() : Unit(30.0f, 300, "bullet.png") {
+Tank::Tank() : Unit(2.0f, 300, "Tank.png", TANK_TEXTURE_WIDTH, TANK_TEXTURE_HEIGHT) {
+    // Additional initialization if needed
+}
+
+Tank::Tank(float spawnX, float spawnY) : Unit(2.0f, 300, "Tank.png", spawnX, spawnY, TANK_TEXTURE_WIDTH, TANK_TEXTURE_HEIGHT) {
     // Additional initialization if needed
 }
 

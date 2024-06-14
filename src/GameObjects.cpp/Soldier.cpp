@@ -1,6 +1,11 @@
 #include "Soldier.h"
+#include "Constants.h"
 
-Soldier::Soldier() : Unit(50.0f, 100, "bullet.png") {
+Soldier::Soldier() : Unit(1.0f, 100, "soldier.png", SOLDIER_TEXTURE_WIDTH, SOLDIER_TEXTURE_HEIGHT) {
+    // Additional initialization if needed
+}
+
+Soldier::Soldier(float spawnX, float spawnY) : Unit(1.0f, 100, "soldier.png", spawnX, spawnY + 25, SOLDIER_TEXTURE_WIDTH, SOLDIER_TEXTURE_HEIGHT) {
     // Additional initialization if needed
 }
 

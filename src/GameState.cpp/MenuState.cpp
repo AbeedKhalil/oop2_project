@@ -18,19 +18,18 @@ MenuState::MenuState(Game* game) : State(game) {
     m_StartText.setFont(m_Font);
     m_StartText.setString("Start");
     m_StartText.setCharacterSize(60);
-    m_StartText.setPosition(930, 220);
-
+    m_StartText.setPosition(static_cast<float>(930), static_cast<float>(220));
     // Set up the Help text
     m_HelpText.setFont(m_Font);
     m_HelpText.setString("Help");
     m_HelpText.setCharacterSize(60);
-    m_HelpText.setPosition(955, 340);
+    m_HelpText.setPosition(static_cast<float>(955), static_cast<float>(340));
 
     // Set up the Exit text
     m_ExitText.setFont(m_Font);
     m_ExitText.setString("Exit");
     m_ExitText.setCharacterSize(60);
-    m_ExitText.setPosition(955, 460);
+    m_ExitText.setPosition(static_cast<float>(955), static_cast<float>(460));
 
     // Load background texture
     m_BackgroundSprite.setTexture(TextureManager::getInstance().getTexture("MainMenu.png"));

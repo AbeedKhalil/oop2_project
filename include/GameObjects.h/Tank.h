@@ -6,6 +6,7 @@
 class Tank : public Unit {
 public:
     Tank();
+    Tank(float spawnX, float spawnY);
     void update() override;
     void render(sf::RenderWindow& window) override;
 };

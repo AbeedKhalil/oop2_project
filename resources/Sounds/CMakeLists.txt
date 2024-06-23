@@ -1,0 +1,5 @@
+configure_file ("menu-music.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("in-game-music.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("shoot.ogg" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("explosion.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("end.ogg" ${CMAKE_BINARY_DIR} COPYONLY)

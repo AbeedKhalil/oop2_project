@@ -1,0 +1,6 @@
+add_subdirectory (Shooter1)
+add_subdirectory (Shooter2)
+add_subdirectory (Shooter3)
+add_subdirectory (Tank1)
+add_subdirectory (Tank2)
+add_subdirectory (Tank3)

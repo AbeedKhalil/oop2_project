@@ -1,0 +1,12 @@
+﻿add_subdirectory (Units)
+add_subdirectory (Turetts)
+add_subdirectory (ShootFx)
+#add_subdirectory (KiteBalloon)
+add_subdirectory (AirBombs)
+add_subdirectory (Explosion)
+
+configure_file ("Help.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("Castle.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("MainMenu.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("Play.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("PlayBlur.png" ${CMAKE_BINARY_DIR} COPYONLY)

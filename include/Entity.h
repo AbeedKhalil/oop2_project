@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "TextureManager.h"
+#include "Constants.h"
 
 class Entity {
 public:

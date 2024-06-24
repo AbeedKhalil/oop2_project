@@ -1,9 +1,10 @@
 #include "PlayState.h"
 #include "Game.h"
 #include "PauseState.h" 
+#include "Castle.h"
 #include "Shooter1.h"
 #include "Tank1.h"
-#include "Building.h"
+
 
 PlayState::PlayState(Game* game) : State(game) {
     m_Font.loadFromFile("MainMenu.otf");
@@ -13,17 +14,17 @@ PlayState::PlayState(Game* game) : State(game) {
 
     // Load background texture
     m_BackgroundSprite.setTexture(TextureManager::getInstance().getTexture("Play.png"));
+
+    m_Castle = new Castle("Castle.png", 0.0f, 750.0f);  // Player's castle position
+    m_EnemyCastle = new Castle("EnemyCastle.png", 1803.0f, 750.0f);  // Enemy castle position
 }
 
 PlayState::~PlayState() {
     for (auto unit : m_Units) {
         delete unit;
     }
+    delete m_Castle;
     m_Units.clear();
-    for (auto building : m_Buildings) {
-        delete building;
-    }
-    m_Buildings.clear();
 }
 
 void PlayState::handleInput(sf::Event event) {
@@ -64,12 +65,12 @@ void PlayState::update() {
 
 void PlayState::render(sf::RenderWindow& window) {
     window.draw(m_BackgroundSprite);  // Draw the background
+    m_Castle->render(window);
+    m_EnemyCastle->render(window);
     for (auto& unit : m_Units) {
         unit->render(window);
     }
-    for (auto& building : m_Buildings) {
-        building->render(window);
-    }
+
     window.draw(m_ResourceText);
 }
 

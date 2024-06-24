@@ -7,15 +7,11 @@
 
 class TextureManager {
 public:
-    static TextureManager& getInstance() {
-        static TextureManager instance;
-        return instance;
-    }
-
-    sf::Texture& getTexture(const std::string& filename);
+    static TextureManager& getInstance();
+    sf::Texture& getTexture(const std::string& texturePath);
 
 private:
-    TextureManager() {}
+    TextureManager() = default;
     TextureManager(const TextureManager&) = delete;
     TextureManager& operator=(const TextureManager&) = delete;
 

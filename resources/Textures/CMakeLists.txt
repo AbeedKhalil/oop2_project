@@ -7,6 +7,7 @@ add_subdirectory (Explosion)
 
 configure_file ("Help.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("Castle.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("EnemyCastle.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("MainMenu.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("Play.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("PlayBlur.png" ${CMAKE_BINARY_DIR} COPYONLY)

@@ -4,7 +4,7 @@
 #include "State.h"
 #include "Unit.h"
 #include "UnitManager.h"
-#include "Building.h"
+#include "Castle.h"
 
 class PlayState : public State {
 public:
@@ -16,7 +16,8 @@ public:
 
 private:
     std::vector<Unit*> m_Units;
-    std::vector<Building*> m_Buildings;
+    Castle* m_Castle;
+    Castle* m_EnemyCastle;
     sf::Font m_Font;
     sf::Text m_ResourceText;
     sf::Sprite m_BackgroundSprite;

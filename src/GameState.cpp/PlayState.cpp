@@ -1,9 +1,10 @@
 #include "PlayState.h"
 #include "Game.h"
 #include "PauseState.h" 
-#include "Soldier.h"
-#include "Tank.h"
 #include "Castle.h"
+#include "Shooter1.h"
+#include "Tank1.h"
+
 
 PlayState::PlayState(Game* game) : State(game) {
     m_Font.loadFromFile("MainMenu.otf");
@@ -33,7 +34,7 @@ void PlayState::handleInput(sf::Event event) {
         }
         if (event.key.code == sf::Keyboard::U) {
             if (m_Game->getResources() >= 100) {
-                Unit* newUnit = new Soldier(SPAWN_POSITION_X, SPAWN_POSITION_Y);
+                Unit* newUnit = new Shooter1(SPAWN_POSITION_X, SPAWN_POSITION_Y);
                 if (!m_Units.empty()) {
                     newUnit->setUnitInFront(m_Units.back());
                 }
@@ -43,7 +44,7 @@ void PlayState::handleInput(sf::Event event) {
         }
         if (event.key.code == sf::Keyboard::T) {
             if (m_Game->getResources() >= 300) {
-                Unit* newUnit = new Tank(SPAWN_POSITION_X, SPAWN_POSITION_Y);
+                Unit* newUnit = new Tank1(SPAWN_POSITION_X, SPAWN_POSITION_Y);
                 if (!m_Units.empty()) {
                     newUnit->setUnitInFront(m_Units.back());
                 }

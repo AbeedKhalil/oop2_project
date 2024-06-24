@@ -3,10 +3,10 @@
 
 #include "Unit.h"
 
-class Tank : public Unit {
+class Tank1 : public Unit {
 public:
-    Tank();
-    Tank(float spawnX, float spawnY);
+    Tank1();
+    Tank1(float spawnX, float spawnY);
     void update() override;
     void render(sf::RenderWindow& window) override;
 };

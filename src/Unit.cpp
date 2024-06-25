@@ -56,19 +56,53 @@ float Unit::getSpacing() const
 }
 
 void Unit::update() {
-    if (!m_IsInCombat) {
+    switch (m_State) {
+    case UnitState::IDLE:
+        // Do nothing
+        break;
+    case UnitState::MOVING:
         move();
+        break;
+    case UnitState::FIGHTING:
+        if (m_EnemyUnit && m_EnemyUnit->isAlive()) {
+            attack(m_EnemyUnit);
+        }
+        else {
+            setState(UnitState::MOVING);
+            m_EnemyUnit = nullptr;
+        }
+        break;
+    case UnitState::DYING:
+        // Handle death animation or removal
+        break;
     }
-    combat();
 }
 
 void Unit::render(sf::RenderWindow& window) {
     window.draw(m_Sprite);
 }
 
+void Unit::setState(UnitState state) {
+    m_State = state;
+}
+
+UnitState Unit::getState() const {
+    return m_State;
+}
+
+void Unit::attack(Unit* target) {
+    if (m_AttackCooldown.getElapsedTime().asSeconds() >= ATTACK_COOLDOWN) {
+        target->takeDamage(m_Damage);
+        m_AttackCooldown.restart();
+    }
+}
+
 void Unit::takeDamage(int damage) {
     m_Health -= damage;
-    if (m_Health < 0) m_Health = 0;
+    if (m_Health <= 0) {
+        m_Health = 0;
+        setState(UnitState::DYING);
+    }
 }
 
 bool Unit::isAlive() const {
@@ -86,6 +120,7 @@ void Unit::setTargetPosition(float x, float y) {
 
 void Unit::engageCombat(Unit* enemyUnit) {
     m_EnemyUnit = enemyUnit;
+    setState(UnitState::FIGHTING);
 }
 
 sf::Vector2f Unit::getPosition() const {
@@ -142,4 +177,12 @@ void Unit::move() {
     if (m_Sprite.getPosition().x < m_TargetPosition.x) {
         m_Sprite.move(m_Speed * 0.01f, 0);
     }
+    else {
+        setState(UnitState::IDLE);
+    }
+}
+
+bool Unit::isCollidingWith(const Unit* other) const {
+    // Simple collision check using bounding boxes
+    return m_Sprite.getGlobalBounds().intersects(other->m_Sprite.getGlobalBounds());
 }

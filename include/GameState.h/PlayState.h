@@ -4,6 +4,7 @@
 #include "State.h"
 #include "UnitManager.h"
 #include "EnemyCastle.h"
+#include "EnemyUnit.h"
 
 class PlayState : public State {
 public:
@@ -29,6 +30,14 @@ private:
     void checkCombat(Unit* playerUnit, Unit* enemyUnit);
     void spreadUnitsNearCastle();
     void adjustUnitPositions();
+
+    sf::Clock m_EnemySpawnClock;
+    float m_EnemySpawnInterval;
+    int m_EnemyResources;
+
+    void updateEnemyAI();
+    void spawnEnemyUnit();
+    EnemyUnit* createRandomEnemyUnit();
 };
 
 

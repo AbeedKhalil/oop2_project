@@ -6,7 +6,7 @@ Castle::Castle(const std::string& texturePath, float x, float y) : m_Health(1000
     m_Sprite.setPosition(x, y);
 
     // Set the scale to make the castle smaller
-    float scale = 0.55f;  // Adjust the scale factor as needed
+    float scale = 0.5f;  // Adjust the scale factor as needed
     m_Sprite.setScale(scale, scale);
 }
 
@@ -27,4 +27,8 @@ bool Castle::isDestroyed() const {
 
 void Castle::setScale(float x, float y) {
     m_Sprite.setScale(x, y);
+}
+
+sf::Vector2f Castle::getPosition() const {
+    return m_Sprite.getPosition();
 }

@@ -11,6 +11,7 @@ public:
     void takeDamage(int damage);
     bool isDestroyed() const;
     void setScale(float x, float y);
+    sf::Vector2f getPosition() const;  // Add this method
 
 protected:
     sf::Sprite m_Sprite;

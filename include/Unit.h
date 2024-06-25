@@ -3,6 +3,13 @@
 
 #include "Entity.h"
 
+enum class UnitState {
+    IDLE,
+    MOVING,
+    FIGHTING,
+    DYING
+};
+
 class Unit : public Entity {
 public:
     Unit(float speed, int health, int damage, float attackRange, int goldWorth, const std::string& texturePath, float width, float height, float spacing);
@@ -20,6 +27,11 @@ public:
     void spreadOut(float centerX, float spreadDistance);
     void adjustPosition(const std::vector<Unit*>& units);
     float getSpacing() const;
+    virtual void move();
+    bool isCollidingWith(const Unit* other) const;
+    void setState(UnitState state);
+    UnitState getState() const;
+    void attack(Unit* target);
 
 protected:
     sf::Sprite m_Sprite;
@@ -35,9 +47,12 @@ protected:
     float m_Spacing;
 
     void setTextureSize(float width, float height);
-    void move();
     void moveToTarget();
     void combat();
+
+    UnitState m_State;
+    sf::Clock m_AttackCooldown;
+    static constexpr float ATTACK_COOLDOWN = 1.0f; // Attack every 1 second
 };
 
 #endif // UNIT_H

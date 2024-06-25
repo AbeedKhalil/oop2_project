@@ -2,9 +2,8 @@
 #define PLAYSTATE_H
 
 #include "State.h"
-#include "Unit.h"
 #include "UnitManager.h"
-#include "Castle.h"
+#include "EnemyCastle.h"
 
 class PlayState : public State {
 public:
@@ -16,14 +15,20 @@ public:
 
 private:
     std::vector<Unit*> m_Units;
-    Castle* m_Castle;
-    Castle* m_EnemyCastle;
+    Castle* m_Castle;  // Player's castle
+    EnemyCastle* m_EnemyCastle;  // Enemy's castle
+    std::vector<Unit*> m_PlayerUnits;
+    std::vector<Unit*> m_EnemyUnits;
     sf::Font m_Font;
     sf::Text m_ResourceText;
     sf::Sprite m_BackgroundSprite;
     void updateResources();
     void accumulateResources();
     sf::Clock m_ResourceClock;
+    void manageUnits();
+    void checkCombat(Unit* playerUnit, Unit* enemyUnit);
+    void spreadUnitsNearCastle();
+    void adjustUnitPositions();
 };
 
 

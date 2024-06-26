@@ -8,11 +8,7 @@
 
 class UnitManager {
 public:
-    static UnitManager& getInstance() {
-        static UnitManager instance;
-        return instance;
-    }
-
+    static UnitManager& getInstance();
     std::shared_ptr<Unit> getUnit(const std::string& unitType);
 
 private:

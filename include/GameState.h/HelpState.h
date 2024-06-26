@@ -6,6 +6,7 @@
 class HelpState : public State {
 public:
     HelpState(Game* game);
+
     void handleInput(sf::Event event) override;
     void update() override;
     void render(sf::RenderWindow& window) override;

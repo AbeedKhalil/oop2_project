@@ -6,6 +6,7 @@
 class PauseState : public State {
 public:
     PauseState(Game* game);
+
     void handleInput(sf::Event event) override;
     void update() override;
     void render(sf::RenderWindow& window) override;
@@ -18,6 +19,7 @@ private:
     sf::RenderTexture m_RenderTexture;
     sf::Sprite m_BackgroundSprite;
 
+    // Helper methods for user interaction
     void handleMouseHover(sf::RenderWindow& window);
     void handleMouseClick(sf::RenderWindow& window);
 };

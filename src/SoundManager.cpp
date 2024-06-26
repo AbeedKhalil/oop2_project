@@ -1,5 +1,11 @@
 #include "SoundManager.h"
 
+SoundManager& SoundManager::getInstance()
+{
+    static SoundManager instance;
+    return instance;
+}
+
 void SoundManager::loadSound(const std::string& name, const std::string& filename) {
     sf::SoundBuffer buffer;
     if (buffer.loadFromFile(filename)) {

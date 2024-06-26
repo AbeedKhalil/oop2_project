@@ -2,7 +2,6 @@
 #define STATE_H
 
 #include <vector>
-#include <iostream>
 #include "TextureManager.h"
 #include "SoundManager.h"
 
@@ -10,13 +9,15 @@ class Game;
 
 class State {
 public:
-    virtual ~State() {}
+    virtual ~State() = default;
+
+    // Pure virtual methods to be implemented by derived states
     virtual void handleInput(sf::Event event) = 0;
     virtual void update() = 0;
     virtual void render(sf::RenderWindow& window) = 0;
 
 protected:
-    State(Game* game) : m_Game(game) {}
+    explicit State(Game* game) : m_Game(game) {}
 
     Game* m_Game;
 };

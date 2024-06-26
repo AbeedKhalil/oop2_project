@@ -2,6 +2,7 @@
 #define UNIT_H
 
 #include "Entity.h"
+#include <vector>
 
 enum class UnitState {
     IDLE,
@@ -14,24 +15,33 @@ class Unit : public Entity {
 public:
     Unit(float speed, int health, int damage, float attackRange, int goldWorth, const std::string& texturePath, float width, float height, float spacing);
     Unit(float speed, int health, int damage, float attackRange, int goldWorth, const std::string& texturePath, float spawnX, float spawnY, float width, float height, float spacing);
+
     void update() override;
     void render(sf::RenderWindow& window) override;
+
+    // Combat-related methods
     void takeDamage(int damage);
     bool isAlive() const;
     bool isInCombatRange(const Unit* otherUnit) const;
-    void setTargetPosition(float x, float y);
     void engageCombat(Unit* enemyUnit);
-    sf::Vector2f getPosition() const;
-    int getGoldWorth() const;
-    bool isNearCastle() const;
+    void attack(Unit* target);
+
+    // Movement-related methods
+    void setTargetPosition(float x, float y);
+    virtual void move();
     void spreadOut(float centerX, float spreadDistance);
     void adjustPosition(const std::vector<Unit*>& units);
+
+    // Getters
+    sf::Vector2f getPosition() const;
+    int getGoldWorth() const;
     float getSpacing() const;
-    virtual void move();
-    bool isCollidingWith(const Unit* other) const;
-    void setState(UnitState state);
     UnitState getState() const;
-    void attack(Unit* target);
+
+    // State-related methods
+    void setState(UnitState state);
+    bool isNearCastle() const;
+    bool isCollidingWith(const Unit* other) const;
 
 protected:
     sf::Sprite m_Sprite;
@@ -45,14 +55,14 @@ protected:
     sf::Vector2f m_TargetPosition;
     bool m_IsInCombat;
     float m_Spacing;
+    UnitState m_State;
+    sf::Clock m_AttackCooldown;
+
+    static constexpr float ATTACK_COOLDOWN = 1.0f; // Attack every 1 second
 
     void setTextureSize(float width, float height);
     void moveToTarget();
     void combat();
-
-    UnitState m_State;
-    sf::Clock m_AttackCooldown;
-    static constexpr float ATTACK_COOLDOWN = 1.0f; // Attack every 1 second
 };
 
 #endif // UNIT_H

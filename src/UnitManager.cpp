@@ -2,6 +2,12 @@
 #include "Shooter1.h"
 #include "Tank1.h"
 
+UnitManager& UnitManager::getInstance()
+{
+    static UnitManager instance;
+    return instance;
+}
+
 std::shared_ptr<Unit> UnitManager::getUnit(const std::string& unitType) {
     auto it = m_Units.find(unitType);
     if (it != m_Units.end()) {

@@ -10,6 +10,7 @@ class PlayState : public State {
 public:
     PlayState(Game* game);
     ~PlayState();
+
     void handleInput(sf::Event event) override;
     void update() override;
     void render(sf::RenderWindow& window) override;
@@ -23,22 +24,24 @@ private:
     sf::Font m_Font;
     sf::Text m_ResourceText;
     sf::Sprite m_BackgroundSprite;
+
+    sf::Clock m_ResourceClock;
+    sf::Clock m_EnemySpawnClock;
+    float m_EnemySpawnInterval;
+    int m_EnemyResources;
+
+    // Helper methods for game logic
     void updateResources();
     void accumulateResources();
-    sf::Clock m_ResourceClock;
     void manageUnits();
     void checkCombat(Unit* playerUnit, Unit* enemyUnit);
     void spreadUnitsNearCastle();
     void adjustUnitPositions();
 
-    sf::Clock m_EnemySpawnClock;
-    float m_EnemySpawnInterval;
-    int m_EnemyResources;
-
+    // Enemy AI methods
     void updateEnemyAI();
     void spawnEnemyUnit();
     EnemyUnit* createRandomEnemyUnit();
 };
-
 
 #endif // PLAYSTATE_H

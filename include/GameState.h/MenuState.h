@@ -6,6 +6,7 @@
 class MenuState : public State {
 public:
     MenuState(Game* game);
+
     void handleInput(sf::Event event) override;
     void update() override;
     void render(sf::RenderWindow& window) override;
@@ -18,6 +19,7 @@ private:
     sf::Text m_ExitText;
     sf::Sprite m_BackgroundSprite;
 
+    // Helper methods for user interaction
     void handleMouseHover(sf::RenderWindow& window);
     void handleMouseClick(sf::RenderWindow& window);
 };

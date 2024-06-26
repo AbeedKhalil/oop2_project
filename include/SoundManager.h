@@ -2,24 +2,25 @@
 #define SOUNDMANAGER_H
 
 #include <SFML/Audio.hpp>
-#include<iostream>
+#include <iostream>
 #include <map>
 #include <string>
 
 class SoundManager {
 public:
-    static SoundManager& getInstance() {
-        static SoundManager instance;
-        return instance;
-    }
+    // Singleton instance getter
+    static SoundManager& getInstance();
 
+    // Sound management methods
     void loadSound(const std::string& name, const std::string& filename);
     void playSound(const std::string& name);
+
+    // Music management methods
     void loadMusic(const std::string& filename);
     void playMusic();
 
 private:
-    SoundManager() {}
+    SoundManager() = default;
     SoundManager(const SoundManager&) = delete;
     SoundManager& operator=(const SoundManager&) = delete;
 

@@ -24,6 +24,11 @@ private:
     sf::Text m_ResourceText;
     sf::Sprite m_BackgroundSprite;
 
+    sf::Sprite m_Shooter1Icon, m_Shooter2Icon, m_Shooter3Icon;
+    sf::Sprite m_Tank1Icon, m_Tank2Icon, m_Tank3Icon;
+    sf::RectangleShape m_Shooter1Background, m_Shooter2Background, m_Shooter3Background;
+    sf::RectangleShape m_Tank1Background, m_Tank2Background, m_Tank3Background;
+
     sf::Clock m_ResourceClock;
     sf::Clock m_EnemySpawnClock;
     float m_EnemySpawnInterval;

@@ -2,6 +2,7 @@
 #define UNIT_H
 
 #include "Entity.h"
+#include "EnemyCastle.h"
 #include <vector>
 
 enum class UnitState {
@@ -25,6 +26,8 @@ public:
     bool isInCombatRange(const Unit* otherUnit) const;
     void engageCombat(Unit* enemyUnit);
     void attack(Unit* target);
+    void attackCastle(Castle* castle);
+    float getAttackRange() const;
 
     // Movement-related methods
     void setTargetPosition(float x, float y);
@@ -40,7 +43,6 @@ public:
 
     // State-related methods
     void setState(UnitState state);
-    bool isNearCastle() const;
     bool isCollidingWith(const Unit* other) const;
 
 protected:

@@ -3,7 +3,6 @@
 
 #include "State.h"
 #include "UnitManager.h"
-#include "EnemyCastle.h"
 #include "EnemyUnit.h"
 
 class PlayState : public State {
@@ -35,12 +34,13 @@ private:
     void accumulateResources();
     void manageUnits();
     void checkCombat(Unit* playerUnit, Unit* enemyUnit);
-    void spreadUnitsNearCastle();
+    void checkUnitsAttackingCastle();
     void adjustUnitPositions();
 
     // Enemy AI methods
     void updateEnemyAI();
     void spawnEnemyUnit();
+    void adjustEnemyUnitPositions();
     EnemyUnit* createRandomEnemyUnit();
 };
 

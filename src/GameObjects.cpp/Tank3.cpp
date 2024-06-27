@@ -1,11 +1,10 @@
 #include "Tank3.h"
-#include "Constants.h"
 
-Tank3::Tank3() : Unit(1.0f, TANK_3_HEALTH, TANK_3_DAMAGE, 10, TANK_3_WORTH, "Tank.png", TANK_TEXTURE_WIDTH, TANK_TEXTURE_HEIGHT, TANK_3_SPACING) {
+Tank3::Tank3() : Unit(TANK_3_SPEED, TANK_3_HEALTH, TANK_3_DAMAGE, TANK_3_ATTACK_RANGE, TANK_3_WORTH, "Tank.png", TANK_TEXTURE_WIDTH, TANK_TEXTURE_HEIGHT, TANK_3_SPACING) {
     // Additional initialization if needed
 }
 
-Tank3::Tank3(float spawnX, float spawnY) : Unit(1.0f, TANK_3_HEALTH, TANK_3_DAMAGE, 10, TANK_3_WORTH, "Tank.png", spawnX, spawnY, TANK_TEXTURE_WIDTH, TANK_TEXTURE_HEIGHT, TANK_3_SPACING) {
+Tank3::Tank3(float spawnX, float spawnY) : Unit(TANK_3_SPEED, TANK_3_HEALTH, TANK_3_DAMAGE, TANK_3_ATTACK_RANGE, TANK_3_WORTH, "Tank.png", spawnX, spawnY, TANK_TEXTURE_WIDTH, TANK_TEXTURE_HEIGHT, TANK_3_SPACING) {
     // Additional initialization if needed
 }
 

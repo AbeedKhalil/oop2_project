@@ -15,6 +15,7 @@ public:
     void update() override;
     void render(sf::RenderWindow& window) override;
     void move() override;
+    void adjustPosition(const std::vector<Unit*>& units);
 };
 
 #endif // ENEMYUNIT_H

@@ -13,7 +13,7 @@ const float SPAWN_POSITION_Y = 880.0f;
 
 // Game mechanics constants
 static constexpr float STOPPING_DISTANCE = 50.0f;
-static constexpr float CASTLE_ATTACK_RANGE = 50.0f;
+static constexpr float CASTLE_ATTACK_DISTANCE = 50.0f;
 static constexpr float UNIT_SPACING = 30.0f;
 static constexpr float SPREAD_DISTANCE = 30.0f;
 
@@ -40,6 +40,22 @@ const int SHOOTER_3_WORTH = 125;
 const int TANK_1_WORTH = 200;
 const int TANK_2_WORTH = 300;
 const int TANK_3_WORTH = 600;
+
+// Speed for each unit type
+const float SHOOTER_1_SPEED = 25.0f;
+const float SHOOTER_2_SPEED = 22.0f;
+const float SHOOTER_3_SPEED = 20.0f;
+const float TANK_1_SPEED = 15.0f;
+const float TANK_2_SPEED = 13.0f;
+const float TANK_3_SPEED = 20.0f;
+
+// Attack ranges for each unit type
+const float SHOOTER_1_ATTACK_RANGE = 150.0f;
+const float SHOOTER_2_ATTACK_RANGE = 180.0f;
+const float SHOOTER_3_ATTACK_RANGE = 200.0f;
+const float TANK_1_ATTACK_RANGE = 100.0f;
+const float TANK_2_ATTACK_RANGE = 120.0f;
+const float TANK_3_ATTACK_RANGE = 140.0f;
 
 // Unit spacing
 const float SHOOTER_1_SPACING = 70.0f;

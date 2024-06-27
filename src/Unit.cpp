@@ -73,7 +73,7 @@ void Unit::update() {
         }
         break;
     case UnitState::DYING:
-        // Handle death animation or removal
+        // The unit will be removed in the PlayState::manageUnits() function
         break;
     }
 }
@@ -95,6 +95,18 @@ void Unit::attack(Unit* target) {
         target->takeDamage(m_Damage);
         m_AttackCooldown.restart();
     }
+}
+
+void Unit::attackCastle(Castle* castle) {
+    if (m_AttackCooldown.getElapsedTime().asSeconds() >= ATTACK_COOLDOWN) {
+        castle->takeDamage(m_Damage);
+        m_AttackCooldown.restart();
+    }
+}
+
+float Unit::getAttackRange() const
+{
+    return m_AttackRange;
 }
 
 void Unit::takeDamage(int damage) {
@@ -129,10 +141,6 @@ sf::Vector2f Unit::getPosition() const {
 
 int Unit::getGoldWorth() const {
     return m_GoldWorth;
-}
-
-bool Unit::isNearCastle() const {
-    return std::abs(m_Sprite.getPosition().x - m_TargetPosition.x) <= CASTLE_ATTACK_RANGE;
 }
 
 void Unit::spreadOut(float centerX, float spreadDistance) {
@@ -174,11 +182,13 @@ void Unit::combat() {
 }
 
 void Unit::move() {
-    if (m_Sprite.getPosition().x < m_TargetPosition.x) {
-        m_Sprite.move(m_Speed * 0.01f, 0);
-    }
-    else {
-        setState(UnitState::IDLE);
+    if (m_State != UnitState::FIGHTING) {
+        if (m_Sprite.getPosition().x < m_TargetPosition.x) {
+            m_Sprite.move(m_Speed * 0.01f, 0);
+        }
+        else {
+            setState(UnitState::IDLE);
+        }
     }
 }
 

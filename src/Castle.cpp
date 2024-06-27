@@ -1,6 +1,6 @@
 #include "Castle.h"
 
-Castle::Castle(const std::string& texturePath, float x, float y) : m_Health(1000) {  // Example health
+Castle::Castle(const std::string& texturePath, float x, float y) : m_Health(8000) {
     m_Texture = &TextureManager::getInstance().getTexture(texturePath);
     m_Sprite.setTexture(*m_Texture);
     m_Sprite.setPosition(x, y);

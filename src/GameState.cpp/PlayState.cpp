@@ -9,7 +9,7 @@ PlayState::PlayState(Game* game) : State(game) {
     m_Font.loadFromFile("MainMenu.otf");
     m_ResourceText.setFont(m_Font);
     m_ResourceText.setCharacterSize(24);
-    m_ResourceText.setPosition(10, 10);
+    m_ResourceText.setPosition(10, 130);
 
     // Load background texture
     m_BackgroundSprite.setTexture(TextureManager::getInstance().getTexture("Play.png"));
@@ -18,7 +18,59 @@ PlayState::PlayState(Game* game) : State(game) {
     m_EnemyCastle = new EnemyCastle("EnemyCastle.png", 1821.0f, 770.0f);  // Enemy castle position
 
     m_EnemySpawnInterval = 5.0f; // Spawn an enemy unit every 5 seconds
-    m_EnemyResources = 500; // Starting enemy resources
+    m_EnemyResources = 1000; // Starting enemy resources
+
+    // Load unit icons
+    m_Shooter1Icon.setTexture(TextureManager::getInstance().getTexture("skeleton1-Idle_0.png"));
+    m_Shooter2Icon.setTexture(TextureManager::getInstance().getTexture("skeleton6-Idle_0.png"));
+    m_Shooter3Icon.setTexture(TextureManager::getInstance().getTexture("skeleton11-Idle_0.png"));
+    m_Tank1Icon.setTexture(TextureManager::getInstance().getTexture("skeleton8-Idle_0.png"));
+    m_Tank2Icon.setTexture(TextureManager::getInstance().getTexture("skeleton10-Idle_0.png"));
+    m_Tank3Icon.setTexture(TextureManager::getInstance().getTexture("skeleton12-Idle_0.png"));
+
+    // Set up icon backgrounds
+    sf::Vector2f iconSize(100, 100);
+    m_Shooter1Background.setSize(iconSize);
+    m_Shooter2Background.setSize(iconSize);
+    m_Shooter3Background.setSize(iconSize);
+    m_Tank1Background.setSize(iconSize);
+    m_Tank2Background.setSize(iconSize);
+    m_Tank3Background.setSize(iconSize);
+
+    sf::Color backgroundColor(200, 200, 200);
+    m_Shooter1Background.setFillColor(backgroundColor);
+    m_Shooter2Background.setFillColor(backgroundColor);
+    m_Shooter3Background.setFillColor(backgroundColor);
+    m_Tank1Background.setFillColor(backgroundColor);
+    m_Tank2Background.setFillColor(backgroundColor);
+    m_Tank3Background.setFillColor(backgroundColor);
+
+    // Position icons and backgrounds
+    float startX = 10, startY = 10, spacing = 120;
+    m_Shooter1Background.setPosition(startX, startY);
+    m_Shooter2Background.setPosition(startX + spacing, startY);
+    m_Shooter3Background.setPosition(startX + spacing * 2, startY);
+    m_Tank1Background.setPosition(startX + spacing * 3, startY);
+    m_Tank2Background.setPosition(startX + spacing * 4, startY);
+    m_Tank3Background.setPosition(startX + spacing * 5, startY);
+
+    // Position icons (slightly offset from backgrounds)
+    float iconOffset = 5;
+    m_Shooter1Icon.setPosition(startX + iconOffset + 10.0f, startY + iconOffset + 5.0f);
+    m_Shooter2Icon.setPosition(startX + spacing + iconOffset + 10.0f, startY + iconOffset + 5.0f);
+    m_Shooter3Icon.setPosition(startX + spacing * 2 + iconOffset + 10.0f, startY + iconOffset);
+    m_Tank1Icon.setPosition(startX + spacing * 3 + iconOffset + 5.0f, startY + iconOffset);
+    m_Tank2Icon.setPosition(startX + spacing * 4 + iconOffset, startY + iconOffset);
+    m_Tank3Icon.setPosition(startX + spacing * 5 + iconOffset - 23.0f, startY + iconOffset - 28.0f);
+
+    // Scale icons to fit in the backgrounds
+    float iconScale = 0.75f;
+    m_Shooter1Icon.setScale(iconScale, iconScale);
+    m_Shooter2Icon.setScale(iconScale, iconScale);
+    m_Shooter3Icon.setScale(iconScale, iconScale);
+    m_Tank1Icon.setScale(iconScale, iconScale);
+    m_Tank2Icon.setScale(iconScale, iconScale);
+    m_Tank3Icon.setScale(iconScale * 0.35, iconScale * 0.35);
 }
 
 PlayState::~PlayState() {
@@ -110,6 +162,23 @@ void PlayState::render(sf::RenderWindow& window) {
     window.draw(m_BackgroundSprite);  // Draw the background
     m_Castle->render(window);  // Render the player's castle first
     m_EnemyCastle->render(window);  // Render the enemy castle
+
+    // Draw icon backgrounds
+    window.draw(m_Shooter1Background);
+    window.draw(m_Shooter2Background);
+    window.draw(m_Shooter3Background);
+    window.draw(m_Tank1Background);
+    window.draw(m_Tank2Background);
+    window.draw(m_Tank3Background);
+
+    // Draw icons
+    window.draw(m_Shooter1Icon);
+    window.draw(m_Shooter2Icon);
+    window.draw(m_Shooter3Icon);
+    window.draw(m_Tank1Icon);
+    window.draw(m_Tank2Icon);
+    window.draw(m_Tank3Icon);
+
     for (auto& unit : m_PlayerUnits) {
         unit->render(window);
     }

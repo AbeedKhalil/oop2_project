@@ -2,7 +2,11 @@
 #include "Game.h"
 #include "PauseState.h"
 #include "Shooter1.h"
+#include "Shooter2.h"
+#include "Shooter3.h"
 #include "Tank1.h"
+#include "Tank2.h"
+#include "Tank3.h"
 
 
 PlayState::PlayState(Game* game) : State(game),m_EnemyResources(0), m_EnemySpawnInterval(0.0f) {
@@ -104,23 +108,27 @@ void PlayState::handleInput(sf::Event event) {
         if (event.key.code == sf::Keyboard::P) {
             m_Game->pushState(new PauseState(m_Game));
         }
-        if (event.key.code == sf::Keyboard::U) {
-            if (m_Game->getResources() >= 100) {
-                Unit* newUnit = new Shooter1(SPAWN_POSITION_X, SPAWN_POSITION_Y);
-                newUnit->setTargetPosition(m_EnemyCastle->getPosition().x, m_EnemyCastle->getPosition().y);
-                newUnit->setState(UnitState::MOVING);
-                m_PlayerUnits.push_back(newUnit);
-                m_Game->spendResources(100);
-            }
+    }
+    else if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+        sf::Vector2i mousePos = sf::Mouse::getPosition(m_Game->getWindow());
+
+        if (m_Shooter1Background.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+            spawnUnit(UnitType::SHOOTER_1);
         }
-        if (event.key.code == sf::Keyboard::T) {
-            if (m_Game->getResources() >= 300) {
-                Unit* newUnit = new Tank1(SPAWN_POSITION_X, SPAWN_POSITION_Y);
-                newUnit->setTargetPosition(m_EnemyCastle->getPosition().x, m_EnemyCastle->getPosition().y);
-                newUnit->setState(UnitState::MOVING);
-                m_PlayerUnits.push_back(newUnit);
-                m_Game->spendResources(300);
-            }
+        else if (m_Shooter2Background.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+            spawnUnit(UnitType::SHOOTER_2);
+        }
+        else if (m_Shooter3Background.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+            spawnUnit(UnitType::SHOOTER_3);
+        }
+        else if (m_Tank1Background.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+            spawnUnit(UnitType::TANK_1);
+        }
+        else if (m_Tank2Background.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+            spawnUnit(UnitType::TANK_2);
+        }
+        else if (m_Tank3Background.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+            spawnUnit(UnitType::TANK_3);
         }
     }
 }
@@ -137,6 +145,7 @@ void PlayState::update() {
     }
 
     adjustEnemyUnitPositions();
+
     checkUnitsAttackingCastle();
     manageUnits();
     updateResources();
@@ -215,7 +224,7 @@ void PlayState::accumulateResources() {
 void PlayState::updateEnemyAI() {
     // Accumulate resources for the enemy
     if (m_ResourceClock.getElapsedTime().asSeconds() >= 1.0f) {
-        m_EnemyResources += 10; // Add 10 resources every second
+        m_EnemyResources += 15;
         m_ResourceClock.restart();
     }
 
@@ -235,7 +244,7 @@ void PlayState::updateEnemyAI() {
 }
 
 void PlayState::spawnEnemyUnit() {
-    if (m_EnemyResources >= 100) {
+    if (m_EnemyResources >= SHOOTER_1_WORTH) {
         EnemyUnit* newUnit = createRandomEnemyUnit();
         if (newUnit) {
             newUnit->setTargetPosition(m_Castle->getPosition().x, m_Castle->getPosition().y);
@@ -246,7 +255,7 @@ void PlayState::spawnEnemyUnit() {
 }
 
 EnemyUnit* PlayState::createRandomEnemyUnit() {
-    int unitType = rand() % 3; // 0: Shooter1, 1: Shooter2, 2: Tank1
+    int unitType = rand() % 6; // 0-5: Shooter1, Shooter2, Shooter3, Tank1, Tank2, Tank3
     float spawnX = 1920.0f - SPAWN_POSITION_X; // Spawn on the right side
     float spawnY = SPAWN_POSITION_Y;
 
@@ -254,23 +263,92 @@ EnemyUnit* PlayState::createRandomEnemyUnit() {
     case 0:
         if (m_EnemyResources >= SHOOTER_1_WORTH) {
             m_EnemyResources -= SHOOTER_1_WORTH;
-            return new EnemyUnit(20.0f, SHOOTER_1_HEALTH, SHOOTER_1_DAMAGE, 10.0f, SHOOTER_1_WORTH, "soldier.png", spawnX, spawnY + 25, SOLDIER_TEXTURE_WIDTH, SOLDIER_TEXTURE_HEIGHT, SHOOTER_1_SPACING + 250.0f);
+            return new EnemyUnit(SHOOTER_1_SPEED, SHOOTER_1_HEALTH, SHOOTER_1_DAMAGE, SHOOTER_1_ATTACK_RANGE, SHOOTER_1_WORTH, "skeleton1-Idle_0.png", spawnX, spawnY + 25.0f, SOLDIER_TEXTURE_WIDTH, SOLDIER_TEXTURE_HEIGHT, SHOOTER_1_SPACING + 250.0f);
         }
         break;
     case 1:
         if (m_EnemyResources >= SHOOTER_2_WORTH) {
             m_EnemyResources -= SHOOTER_2_WORTH;
-            return new EnemyUnit(20.0f, SHOOTER_2_HEALTH, SHOOTER_2_DAMAGE, 10.0f, SHOOTER_2_WORTH, "soldier.png", spawnX, spawnY + 25, SOLDIER_TEXTURE_WIDTH, SOLDIER_TEXTURE_HEIGHT, SHOOTER_2_SPACING + 250.0f);
+            return new EnemyUnit(SHOOTER_2_SPEED, SHOOTER_2_HEALTH, SHOOTER_2_DAMAGE, SHOOTER_2_ATTACK_RANGE, SHOOTER_2_WORTH, "skeleton6-Idle_0.png", spawnX, spawnY + 25.0f, SOLDIER_TEXTURE_WIDTH, SOLDIER_TEXTURE_HEIGHT, SHOOTER_2_SPACING + 250.0f);
         }
         break;
     case 2:
+        if (m_EnemyResources >= SHOOTER_3_WORTH) {
+            m_EnemyResources -= SHOOTER_3_WORTH;
+            return new EnemyUnit(SHOOTER_3_SPEED, SHOOTER_3_HEALTH, SHOOTER_3_DAMAGE, SHOOTER_3_ATTACK_RANGE, SHOOTER_3_WORTH, "skeleton11-Idle_0.png", spawnX, spawnY + 25.0f, SOLDIER_TEXTURE_WIDTH, SOLDIER_TEXTURE_HEIGHT, SHOOTER_3_SPACING + 250.0f);
+        }
+        break;
+    case 3:
         if (m_EnemyResources >= TANK_1_WORTH) {
             m_EnemyResources -= TANK_1_WORTH;
-            return new EnemyUnit(15.0f, TANK_1_HEALTH, TANK_1_DAMAGE, 50.0f, TANK_1_WORTH, "Tank.png", spawnX, spawnY, TANK_TEXTURE_WIDTH, TANK_TEXTURE_HEIGHT, TANK_1_SPACING + 150.0f);
+            return new EnemyUnit(TANK_1_SPEED, TANK_1_HEALTH, TANK_1_DAMAGE, TANK_1_ATTACK_RANGE, TANK_1_WORTH, "skeleton8-Idle_0.png", spawnX, spawnY + 25.0f, TANK_TEXTURE_WIDTH * 0.5f, TANK_TEXTURE_HEIGHT * 0.5f, TANK_1_SPACING + 150.0f);
+        }
+        break;
+    case 4:
+        if (m_EnemyResources >= TANK_2_WORTH) {
+            m_EnemyResources -= TANK_2_WORTH;
+            return new EnemyUnit(TANK_2_SPEED, TANK_2_HEALTH, TANK_2_DAMAGE, TANK_2_ATTACK_RANGE, TANK_2_WORTH, "skeleton10-Idle_0.png", spawnX, spawnY + 25.0f, TANK_TEXTURE_WIDTH * 0.5f, TANK_TEXTURE_HEIGHT * 0.5f, TANK_2_SPACING + 150.0f);
+        }
+        break;
+    case 5:
+        if (m_EnemyResources >= TANK_3_WORTH) {
+            m_EnemyResources -= TANK_3_WORTH;
+            return new EnemyUnit(TANK_3_SPEED, TANK_3_HEALTH, TANK_3_DAMAGE, TANK_3_ATTACK_RANGE, TANK_3_WORTH, "skeleton12-Idle_0.png", spawnX, spawnY, TANK_TEXTURE_WIDTH, TANK_TEXTURE_HEIGHT, TANK_3_SPACING + 150.0f);
         }
         break;
     }
     return nullptr; // If we can't afford any unit
+}
+
+void PlayState::spawnUnit(UnitType type) {
+    Unit* newUnit = nullptr;
+    int cost = 0;
+
+    switch (type) {
+    case UnitType::SHOOTER_1:
+        if (m_Game->getResources() >= SHOOTER_1_WORTH) {
+            newUnit = new Shooter1(SPAWN_POSITION_X, SPAWN_POSITION_Y);
+            cost = SHOOTER_1_WORTH;
+        }
+        break;
+    case UnitType::SHOOTER_2:
+        if (m_Game->getResources() >= SHOOTER_2_WORTH) {
+            newUnit = new Shooter2(SPAWN_POSITION_X, SPAWN_POSITION_Y);
+            cost = SHOOTER_2_WORTH;
+        }
+        break;
+    case UnitType::SHOOTER_3:
+        if (m_Game->getResources() >= SHOOTER_3_WORTH) {
+            newUnit = new Shooter3(SPAWN_POSITION_X, SPAWN_POSITION_Y);
+            cost = SHOOTER_3_WORTH;
+        }
+        break;
+    case UnitType::TANK_1:
+        if (m_Game->getResources() >= TANK_1_WORTH) {
+            newUnit = new Tank1(SPAWN_POSITION_X, SPAWN_POSITION_Y);
+            cost = TANK_1_WORTH;
+        }
+        break;
+    case UnitType::TANK_2:
+        if (m_Game->getResources() >= TANK_2_WORTH) {
+            newUnit = new Tank2(SPAWN_POSITION_X, SPAWN_POSITION_Y);
+            cost = TANK_2_WORTH;
+        }
+        break;
+    case UnitType::TANK_3:
+        if (m_Game->getResources() >= TANK_3_WORTH) {
+            newUnit = new Tank3(SPAWN_POSITION_X, SPAWN_POSITION_Y);
+            cost = TANK_3_WORTH;
+        }
+        break;
+    }
+
+    if (newUnit) {
+        newUnit->setTargetPosition(m_EnemyCastle->getPosition().x, m_EnemyCastle->getPosition().y);
+        newUnit->setState(UnitState::MOVING);
+        m_PlayerUnits.push_back(newUnit);
+        m_Game->spendResources(cost);
+    }
 }
 
 void PlayState::manageUnits() {
@@ -326,6 +404,10 @@ void PlayState::manageUnits() {
                 if (enemyUnit->getState() != UnitState::FIGHTING) {
                     enemyUnit->setState(UnitState::FIGHTING);
                     enemyUnit->engageCombat(playerUnit);
+                }
+                if (playerUnit->getState() != UnitState::FIGHTING) {
+                    playerUnit->setState(UnitState::FIGHTING);
+                    playerUnit->engageCombat(enemyUnit);
                 }
                 break;
             }

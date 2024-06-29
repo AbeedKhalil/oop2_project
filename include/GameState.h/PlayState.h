@@ -5,6 +5,15 @@
 #include "UnitManager.h"
 #include "EnemyUnit.h"
 
+enum class UnitType {
+    SHOOTER_1,
+    SHOOTER_2,
+    SHOOTER_3,
+    TANK_1,
+    TANK_2,
+    TANK_3
+};
+
 class PlayState : public State {
 public:
     PlayState(Game* game);
@@ -47,6 +56,8 @@ private:
     void spawnEnemyUnit();
     void adjustEnemyUnitPositions();
     EnemyUnit* createRandomEnemyUnit();
+
+    void spawnUnit(UnitType type);
 };
 
 #endif // PLAYSTATE_H

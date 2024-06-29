@@ -16,6 +16,7 @@ public:
     void render(sf::RenderWindow& window) override;
     void move() override;
     void adjustPosition(const std::vector<Unit*>& units);
+    void checkForEnemyInRange();
 };
 
 #endif // ENEMYUNIT_H

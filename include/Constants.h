@@ -66,10 +66,10 @@ const float TANK_3_ATTACK_RANGE = 140.0f;
 
 // Unit spacing
 const float SHOOTER_1_SPACING = 70.0f;
-const float SHOOTER_2_SPACING = 45.0f;
-const float SHOOTER_3_SPACING = 50.0f;
-const float TANK_1_SPACING = 120.0f;
-const float TANK_2_SPACING = 80.0f;
-const float TANK_3_SPACING = 90.0f;
+const float SHOOTER_2_SPACING = 70.0f;
+const float SHOOTER_3_SPACING = 70.0f;
+const float TANK_1_SPACING = 100.0f;
+const float TANK_2_SPACING = 90.0f;
+const float TANK_3_SPACING = 120.0f;
 
 #endif // CONSTANTS_H

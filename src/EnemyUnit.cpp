@@ -61,7 +61,6 @@ void EnemyUnit::adjustPosition(const std::vector<Unit*>& units) {
     m_Sprite.move(moveDistance, 0);
 }
 
-
 void EnemyUnit::update() {
     switch (m_State) {
     case UnitState::IDLE:
@@ -84,7 +83,6 @@ void EnemyUnit::update() {
         break;
     }
 }
-
 
 void EnemyUnit::render(sf::RenderWindow& window) {
     Unit::render(window); // Call base class render

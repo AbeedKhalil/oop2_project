@@ -13,6 +13,10 @@ public:
     // Main game loop
     void run();
 
+    // difficulty
+    void setDifficulty(Difficulty difficulty);
+    Difficulty getDifficulty() const;
+
     // State management
     void pushState(State* state);
     void popState();
@@ -31,6 +35,9 @@ private:
     void processEvents();
     void update();
     void render();
+
+    // difficulty
+    Difficulty m_CurrentDifficulty;
 
     sf::RenderWindow m_Window;       // Main render window
     std::vector<State*> m_States;    // Stack of game states

@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "PlayState.h"
 #include "HelpState.h"
+#include "DifficultySelectState.h"
 
 MenuState::MenuState(Game* game) : State(game) {
     if (!m_Font.loadFromFile("MainMenu.otf")) {
@@ -67,24 +68,24 @@ void MenuState::handleMouseHover(sf::RenderWindow& window) {
     sf::FloatRect exitBounds = m_ExitText.getGlobalBounds();
 
     if (startBounds.contains(mousePos.x, mousePos.y)) {
-        m_StartText.setFillColor(sf::Color::Green);
+        m_StartText.setFillColor(sf::Color::Red);
     }
     else {
-        m_StartText.setFillColor(sf::Color::Red);
+        m_StartText.setFillColor(sf::Color(120, 0, 0)); // Darker red (Dark Red)
     }
 
     if (helpBounds.contains(mousePos.x, mousePos.y)) {
-        m_HelpText.setFillColor(sf::Color::Green);
+        m_HelpText.setFillColor(sf::Color::Red);
     }
     else {
-        m_HelpText.setFillColor(sf::Color::Red);
+        m_HelpText.setFillColor(sf::Color(120, 0, 0)); // Darker red (Dark Red)
     }
 
     if (exitBounds.contains(mousePos.x, mousePos.y)) {
-        m_ExitText.setFillColor(sf::Color::Green);
+        m_ExitText.setFillColor(sf::Color::Red);
     }
     else {
-        m_ExitText.setFillColor(sf::Color::Red);
+        m_ExitText.setFillColor(sf::Color(120, 0, 0)); // Darker red (Dark Red)
     }
 }
 
@@ -95,7 +96,7 @@ void MenuState::handleMouseClick(sf::RenderWindow& window) {
     sf::FloatRect exitBounds = m_ExitText.getGlobalBounds();
 
     if (startBounds.contains(mousePos.x, mousePos.y)) {
-        m_Game->pushState(new PlayState(m_Game));
+        m_Game->pushState(new DifficultySelectState(m_Game));
     }
 
     if (helpBounds.contains(mousePos.x, mousePos.y)) {

@@ -4,6 +4,7 @@
 #include <vector>
 #include "TextureManager.h"
 #include "SoundManager.h"
+#include "Constants.h"
 
 class Game;
 

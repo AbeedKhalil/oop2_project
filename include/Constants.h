@@ -1,6 +1,13 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+// game difficulty states
+enum class Difficulty {
+    NORMAL,
+    HARD,
+    IMPOSSIBLE
+};
+
 // Texture sizes
 const float SOLDIER_TEXTURE_WIDTH = 60.0f;
 const float SOLDIER_TEXTURE_HEIGHT = 60.0f;

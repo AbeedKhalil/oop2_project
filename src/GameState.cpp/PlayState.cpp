@@ -5,11 +5,12 @@
 #include "Tank1.h"
 
 
-PlayState::PlayState(Game* game) : State(game) {
+PlayState::PlayState(Game* game) : State(game),m_EnemyResources(0), m_EnemySpawnInterval(0.0f) {
     m_Font.loadFromFile("MainMenu.otf");
     m_ResourceText.setFont(m_Font);
     m_ResourceText.setCharacterSize(24);
-    m_ResourceText.setPosition(10, 130);
+    m_ResourceText.setPosition(10, 125);
+    m_ResourceText.setFillColor(sf::Color(153, 101, 21)); // Dark Gold color
 
     // Load background texture
     m_BackgroundSprite.setTexture(TextureManager::getInstance().getTexture("Play.png"));
@@ -17,8 +18,20 @@ PlayState::PlayState(Game* game) : State(game) {
     m_Castle = new Castle("Castle.png", 0.0f, 770.0f);  // Player's castle position
     m_EnemyCastle = new EnemyCastle("EnemyCastle.png", 1821.0f, 770.0f);  // Enemy castle position
 
-    m_EnemySpawnInterval = 5.0f; // Spawn an enemy unit every 5 seconds
-    m_EnemyResources = 1000; // Starting enemy resources
+    switch (m_Game->getDifficulty()) {
+    case Difficulty::NORMAL:
+        m_EnemySpawnInterval = 5.0f;
+        m_EnemyResources = 1000;
+        break;
+    case Difficulty::HARD:
+        m_EnemySpawnInterval = 3.0f;
+        m_EnemyResources = 1500;
+        break;
+    case Difficulty::IMPOSSIBLE:
+        m_EnemySpawnInterval = 2.0f;
+        m_EnemyResources = 2000;
+        break;
+    }
 
     // Load unit icons
     m_Shooter1Icon.setTexture(TextureManager::getInstance().getTexture("skeleton1-Idle_0.png"));
@@ -46,7 +59,7 @@ PlayState::PlayState(Game* game) : State(game) {
     m_Tank3Background.setFillColor(backgroundColor);
 
     // Position icons and backgrounds
-    float startX = 10, startY = 10, spacing = 120;
+    float startX = 10, startY = 10, spacing = 115;
     m_Shooter1Background.setPosition(startX, startY);
     m_Shooter2Background.setPosition(startX + spacing, startY);
     m_Shooter3Background.setPosition(startX + spacing * 2, startY);
@@ -70,7 +83,7 @@ PlayState::PlayState(Game* game) : State(game) {
     m_Shooter3Icon.setScale(iconScale, iconScale);
     m_Tank1Icon.setScale(iconScale, iconScale);
     m_Tank2Icon.setScale(iconScale, iconScale);
-    m_Tank3Icon.setScale(iconScale * 0.35, iconScale * 0.35);
+    m_Tank3Icon.setScale(iconScale * 0.35f, iconScale * 0.35f);
 }
 
 PlayState::~PlayState() {

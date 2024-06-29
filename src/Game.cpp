@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "MenuState.h"
 
-Game::Game() : m_Window(sf::VideoMode(1920, 1080), "Age of War 2 Clone"), m_Resources(10000) {
+Game::Game() : m_Window(sf::VideoMode(1920, 1080), "Age of War 2 Clone"), m_Resources(10000), m_CurrentDifficulty(Difficulty::NORMAL) {
     m_States.push_back(new MenuState(this));
 }
 
@@ -59,6 +59,14 @@ void Game::render() {
         m_States.back()->render(m_Window);
     }
     m_Window.display();
+}
+
+void Game::setDifficulty(Difficulty difficulty) {
+    m_CurrentDifficulty = difficulty;
+}
+
+Difficulty Game::getDifficulty() const {
+    return m_CurrentDifficulty;
 }
 
 int Game::getResources() const {

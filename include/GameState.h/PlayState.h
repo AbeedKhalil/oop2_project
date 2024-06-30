@@ -38,6 +38,15 @@ private:
     sf::RectangleShape m_Shooter1Background, m_Shooter2Background, m_Shooter3Background;
     sf::RectangleShape m_Tank1Background, m_Tank2Background, m_Tank3Background;
 
+    bool m_CanBuyTurret1;
+    bool m_CanBuyTurret2;
+    bool m_CanUpgradeTurret1;
+    bool m_CanUpgradeTurret2;
+
+    void updateTurretButtons();
+    void handleTurretPurchase(int position);
+    void handleTurretUpgrade(int position);
+
     // Initialize player's turret icons
     sf::Sprite m_TurretIcon1, m_TurretIcon2;
     sf::RectangleShape m_TurretBackground1, m_TurretBackground2;

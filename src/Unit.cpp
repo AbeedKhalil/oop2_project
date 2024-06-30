@@ -183,7 +183,7 @@ void Unit::combat() {
 
 void Unit::move() {
     if (m_State != UnitState::FIGHTING) {
-        if (m_Sprite.getPosition().x < m_TargetPosition.x) {
+        if (m_Sprite.getPosition().x < m_TargetPosition.x + m_AttackRange) {
             m_Sprite.move(m_Speed * 0.01f, 0);
         }
         else {

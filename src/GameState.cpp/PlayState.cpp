@@ -37,6 +37,10 @@ PlayState::PlayState(Game* game) : State(game),m_EnemyResources(0), m_EnemySpawn
         break;
     }
 
+    // Load turret icons
+    m_TurretIcon1.setTexture(TextureManager::getInstance().getTexture("skeleton1-Shoot_0.png"));
+    m_TurretIcon2.setTexture(TextureManager::getInstance().getTexture("skeleton1-Shoot_0.png"));
+
     // Load unit icons
     m_Shooter1Icon.setTexture(TextureManager::getInstance().getTexture("skeleton1-Idle_0.png"));
     m_Shooter2Icon.setTexture(TextureManager::getInstance().getTexture("skeleton6-Idle_0.png"));
@@ -53,6 +57,8 @@ PlayState::PlayState(Game* game) : State(game),m_EnemyResources(0), m_EnemySpawn
     m_Tank1Background.setSize(iconSize);
     m_Tank2Background.setSize(iconSize);
     m_Tank3Background.setSize(iconSize);
+    m_TurretBackground1.setSize(iconSize);
+    m_TurretBackground2.setSize(iconSize);
 
     sf::Color backgroundColor(200, 200, 200);
     m_Shooter1Background.setFillColor(backgroundColor);
@@ -61,6 +67,8 @@ PlayState::PlayState(Game* game) : State(game),m_EnemyResources(0), m_EnemySpawn
     m_Tank1Background.setFillColor(backgroundColor);
     m_Tank2Background.setFillColor(backgroundColor);
     m_Tank3Background.setFillColor(backgroundColor);
+    m_TurretBackground1.setFillColor(backgroundColor);
+    m_TurretBackground2.setFillColor(backgroundColor);
 
     // Position icons and backgrounds
     float startX = 10, startY = 10, spacing = 115;
@@ -70,6 +78,8 @@ PlayState::PlayState(Game* game) : State(game),m_EnemyResources(0), m_EnemySpawn
     m_Tank1Background.setPosition(startX + spacing * 3, startY);
     m_Tank2Background.setPosition(startX + spacing * 4, startY);
     m_Tank3Background.setPosition(startX + spacing * 5, startY);
+    m_TurretBackground1.setPosition(startX + spacing * 6, startY);
+    m_TurretBackground2.setPosition(startX + spacing * 7, startY);
 
     // Position icons (slightly offset from backgrounds)
     float iconOffset = 5;
@@ -79,6 +89,8 @@ PlayState::PlayState(Game* game) : State(game),m_EnemyResources(0), m_EnemySpawn
     m_Tank1Icon.setPosition(startX + spacing * 3 + iconOffset + 5.0f, startY + iconOffset);
     m_Tank2Icon.setPosition(startX + spacing * 4 + iconOffset, startY + iconOffset);
     m_Tank3Icon.setPosition(startX + spacing * 5 + iconOffset - 23.0f, startY + iconOffset - 28.0f);
+    m_TurretIcon1.setPosition(startX + spacing * 6 + iconOffset, startY + iconOffset + 20.0f);
+    m_TurretIcon2.setPosition(startX + spacing * 7 + iconOffset, startY + iconOffset + 20.0f);
 
     // Scale icons to fit in the backgrounds
     float iconScale = 0.75f;
@@ -88,6 +100,8 @@ PlayState::PlayState(Game* game) : State(game),m_EnemyResources(0), m_EnemySpawn
     m_Tank1Icon.setScale(iconScale, iconScale);
     m_Tank2Icon.setScale(iconScale, iconScale);
     m_Tank3Icon.setScale(iconScale * 0.35f, iconScale * 0.35f);
+    m_TurretIcon1.setScale(iconScale * 0.5f, iconScale * 0.5f);
+    m_TurretIcon2.setScale(iconScale * 0.5f, iconScale * 0.5f);
 }
 
 PlayState::~PlayState() {
@@ -193,6 +207,10 @@ void PlayState::render(sf::RenderWindow& window) {
     window.draw(m_Tank2Background);
     window.draw(m_Tank3Background);
 
+    // Draw turret icon backgrounds
+    window.draw(m_TurretBackground1);
+    window.draw(m_TurretBackground2);
+
     // Draw icons
     window.draw(m_Shooter1Icon);
     window.draw(m_Shooter2Icon);
@@ -200,6 +218,10 @@ void PlayState::render(sf::RenderWindow& window) {
     window.draw(m_Tank1Icon);
     window.draw(m_Tank2Icon);
     window.draw(m_Tank3Icon);
+
+    // Draw turret icons
+    window.draw(m_TurretIcon1);
+    window.draw(m_TurretIcon2);
 
     for (auto& unit : m_PlayerUnits) {
         unit->render(window);

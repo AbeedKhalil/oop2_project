@@ -9,7 +9,10 @@
 #include "Tank3.h"
 
 
-PlayState::PlayState(Game* game) : State(game),m_EnemyResources(0), m_EnemySpawnInterval(0.0f) {
+PlayState::PlayState(Game* game) : State(game),m_EnemyResources(0), m_EnemySpawnInterval(0.0f), m_CanBuyTurret1(false),
+m_CanBuyTurret2(false),
+m_CanUpgradeTurret1(false),
+m_CanUpgradeTurret2(false) {
     m_Font.loadFromFile("MainMenu.otf");
     m_ResourceText.setFont(m_Font);
     m_ResourceText.setCharacterSize(24);
@@ -144,6 +147,23 @@ void PlayState::handleInput(sf::Event event) {
         else if (m_Tank3Background.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
             spawnUnit(UnitType::TANK_3);
         }
+        // Handle turret purchases and upgrades
+        if (m_TurretBackground1.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+            if (m_CanBuyTurret1) {
+                handleTurretPurchase(0);
+            }
+            else if (m_CanUpgradeTurret1) {
+                handleTurretUpgrade(0);
+            }
+        }
+        else if (m_TurretBackground2.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+            if (m_CanBuyTurret2) {
+                handleTurretPurchase(1);
+            }
+            else if (m_CanUpgradeTurret2) {
+                handleTurretUpgrade(1);
+            }
+        }
     }
 }
 
@@ -165,6 +185,9 @@ void PlayState::update() {
     updateResources();
     accumulateResources();
     updateEnemyAI();
+    m_Castle->update();
+    m_EnemyCastle->update();
+    updateTurretButtons();
 }
 
 
@@ -230,6 +253,28 @@ void PlayState::render(sf::RenderWindow& window) {
         unit->render(window);
     }
     window.draw(m_ResourceText);
+}
+
+void PlayState::updateTurretButtons() {
+    m_CanBuyTurret1 = m_Game->getResources() >= TURRET_COST && !m_Castle->hasTurret(0);
+    m_CanBuyTurret2 = m_Game->getResources() >= TURRET_COST && !m_Castle->hasTurret(1);
+    m_CanUpgradeTurret1 = m_Game->getResources() >= TURRET_UPGRADE_COST && m_Castle->getTurretLevel(0) < 3;
+    m_CanUpgradeTurret2 = m_Game->getResources() >= TURRET_UPGRADE_COST && m_Castle->getTurretLevel(1) < 3;
+}
+
+void PlayState::handleTurretPurchase(int position) {
+    if (m_Game->getResources() >= TURRET_COST) {
+        if (m_Castle->addTurret(1, position)) {
+            m_Game->spendResources(TURRET_COST);
+        }
+    }
+}
+
+void PlayState::handleTurretUpgrade(int position) {
+    if (m_Game->getResources() >= TURRET_UPGRADE_COST) {
+        m_Castle->upgradeTurret(position);
+        m_Game->spendResources(TURRET_UPGRADE_COST);
+    }
 }
 
 void PlayState::updateResources() {

@@ -24,6 +24,29 @@ static constexpr float CASTLE_ATTACK_DISTANCE = 50.0f;
 static constexpr float UNIT_SPACING = 30.0f;
 static constexpr float SPREAD_DISTANCE = 30.0f;
 
+// Turret constants
+const int TURRET_COST = 250;
+const int TURRET_UPGRADE_COST = 200;
+const float TURRET_1_DAMAGE = 30.0f;
+const float TURRET_2_DAMAGE = 50.0f;
+const float TURRET_3_DAMAGE = 80.0f;
+const float TURRET_1_RANGE = 200.0f;
+const float TURRET_2_RANGE = 250.0f;
+const float TURRET_3_RANGE = 300.0f;
+const float TURRET_1_FIRE_RATE = 1.0f;  // Shots per second
+const float TURRET_2_FIRE_RATE = 1.5f;
+const float TURRET_3_FIRE_RATE = 2.0f;
+
+// Turret texture sizes
+const float TURRET_TEXTURE_WIDTH = 60.0f;
+const float TURRET_TEXTURE_HEIGHT = 60.0f;
+
+// Turret positions relative to castle
+const float TURRET_1_OFFSET_X = 50.0f;
+const float TURRET_1_OFFSET_Y = -50.0f;
+const float TURRET_2_OFFSET_X = 100.0f;
+const float TURRET_2_OFFSET_Y = -30.0f;
+
 // Unit health values
 const int SHOOTER_1_HEALTH = 300;
 const int SHOOTER_2_HEALTH = 350;

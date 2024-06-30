@@ -42,10 +42,10 @@ const float TURRET_TEXTURE_WIDTH = 60.0f;
 const float TURRET_TEXTURE_HEIGHT = 60.0f;
 
 // Turret positions relative to castle
-const float TURRET_1_OFFSET_X = 50.0f;
-const float TURRET_1_OFFSET_Y = -50.0f;
-const float TURRET_2_OFFSET_X = 100.0f;
-const float TURRET_2_OFFSET_Y = -30.0f;
+const float TURRET_1_OFFSET_X = 28.0f;
+const float TURRET_1_OFFSET_Y = 15.0f;
+const float TURRET_2_OFFSET_X = 20.0f;
+const float TURRET_2_OFFSET_Y = 75.0f;
 
 // Unit health values
 const int SHOOTER_1_HEALTH = 300;

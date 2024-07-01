@@ -55,6 +55,8 @@ float Unit::getSpacing() const
     return m_Spacing;
 }
 
+
+
 void Unit::update() {
     switch (m_State) {
     case UnitState::IDLE:
@@ -127,7 +129,7 @@ bool Unit::isInCombatRange(const Unit* otherUnit) const {
 }
 
 void Unit::setTargetPosition(float x, float y) {
-    m_TargetPosition = sf::Vector2f(x, y);
+    m_TargetPosition = sf::Vector2f(x, y); 
 }
 
 void Unit::engageCombat(Unit* enemyUnit) {
@@ -151,6 +153,7 @@ void Unit::spreadOut(float centerX, float spreadDistance) {
     float moveDistance = (newX - currentX) * 0.1f; // Adjust 0.1f for faster/slower spreading
     m_Sprite.move(moveDistance, 0);
 }
+
 
 void Unit::moveToTarget() {
     sf::Vector2f currentPosition = m_Sprite.getPosition();
@@ -182,8 +185,11 @@ void Unit::combat() {
 }
 
 void Unit::move() {
+    if (m_State == UnitState::MOVING && m_Sprite.getPosition().x == ENEMY_CASTLE_X - 100.0f) {
+        setState(UnitState::FIGHTING);
+    }
     if (m_State != UnitState::FIGHTING) {
-        if (m_Sprite.getPosition().x < m_TargetPosition.x) {
+        if (m_Sprite.getPosition().x < m_TargetPosition.x + m_AttackRange) {
             m_Sprite.move(m_Speed * 0.01f, 0);
         }
         else {

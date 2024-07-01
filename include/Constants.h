@@ -72,4 +72,9 @@ const float TANK_1_SPACING = 100.0f;
 const float TANK_2_SPACING = 90.0f;
 const float TANK_3_SPACING = 120.0f;
 
+// Enemy Castle Spawn
+const float ENEMY_CASTLE_X = 1821.0f;
+const float ENEMY_CASTLE_Y = 770.0f;
+
+
 #endif // CONSTANTS_H

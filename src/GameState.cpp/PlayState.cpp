@@ -232,9 +232,9 @@ void PlayState::update() {
     updateTurretButtons();
 }
 
-
-
 void PlayState::checkUnitsAttackingCastle() {
+    //const float CASTLE_ATTACK_DISTANCE = 100.0f; // Adjust this value as needed
+
     // Check player units attacking enemy castle
     for (auto& unit : m_PlayerUnits) {
         float distanceToCastle = std::abs(unit->getPosition().x - m_EnemyCastle->getPosition().x);

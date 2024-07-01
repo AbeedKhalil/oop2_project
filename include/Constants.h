@@ -20,7 +20,7 @@ const float SPAWN_POSITION_Y = 880.0f;
 
 // Game mechanics constants
 static constexpr float STOPPING_DISTANCE = 50.0f;
-static constexpr float CASTLE_ATTACK_DISTANCE = 50.0f;
+static constexpr float CASTLE_ATTACK_DISTANCE = 20.0f;
 static constexpr float UNIT_SPACING = 30.0f;
 static constexpr float SPREAD_DISTANCE = 30.0f;
 

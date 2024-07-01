@@ -9,33 +9,31 @@ public:
     Castle(const std::string& texturePath, float x, float y);
     ~Castle();
 
-    // Render the castle on the screen
     void render(sf::RenderWindow& window);
-
     void update();
-
-    // Handle damage and check castle status
     void takeDamage(int damage);
     bool isDestroyed() const;
-
-    // Adjust castle appearance
     void setScale(float x, float y);
-
-    // Get castle position
     sf::Vector2f getPosition() const;
-
     bool addTurret(int turretType, int position);
     void upgradeTurret(int position);
-
     bool hasTurret(int position) const;
-
     int getTurretLevel(int position) const;
+
+    void renderHealthBar(sf::RenderWindow& window);
 
 protected:
     sf::Sprite m_Sprite;
     sf::Texture* m_Texture;
     int m_Health;
     Turret* m_Turrets[2];
+
+    sf::Font m_Font;
+    sf::Text m_HealthText;
+    sf::RectangleShape m_HealthBar;
+    sf::RectangleShape m_HealthBarBackground;
+
+    void updateHealthBar();
 };
 
 #endif // CASTLE_H

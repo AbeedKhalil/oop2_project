@@ -8,10 +8,37 @@ Unit::Unit(float speed, int health, int damage, float attackRange, int goldWorth
 }
 
 Unit::Unit(float speed, int health, int damage, float attackRange, int goldWorth, const std::string& texturePath, float spawnX, float spawnY, float width, float height, float spacing)
-    : m_Speed(speed), m_Health(health), m_Damage(damage), m_AttackRange(attackRange), m_GoldWorth(goldWorth), m_Texture(TextureManager::getInstance().getTexture(texturePath)), m_EnemyUnit(nullptr), m_IsInCombat(false), m_Spacing(spacing) {
+    : m_Speed(speed), m_Health(health), m_MaxHealth(health), m_Damage(damage), m_AttackRange(attackRange), m_GoldWorth(goldWorth), m_Texture(TextureManager::getInstance().getTexture(texturePath)), m_EnemyUnit(nullptr), m_IsInCombat(false), m_Spacing(spacing) {
     m_Sprite.setTexture(m_Texture);
     m_Sprite.setPosition(spawnX, spawnY);
     setTextureSize(width, height);
+
+    // Set up health bar
+    m_HealthBar.setFillColor(sf::Color::Green);
+    m_HealthBarBackground.setFillColor(sf::Color(100, 100, 100));
+
+    updateHealthBar();
+}
+
+void Unit::updateHealthBar() {
+    float healthPercentage = static_cast<float>(m_Health) / m_MaxHealth;
+
+    float barWidth = m_Sprite.getGlobalBounds().width;
+    float barHeight = 5.0f;
+    m_HealthBarBackground.setSize(sf::Vector2f(barWidth, barHeight));
+    m_HealthBar.setSize(sf::Vector2f(barWidth * healthPercentage, barHeight));
+
+    m_HealthBarBackground.setPosition(m_Sprite.getPosition().x,
+        m_Sprite.getPosition().y - 10);
+    m_HealthBar.setPosition(m_HealthBarBackground.getPosition());
+}
+
+void Unit::renderHealthBar(sf::RenderWindow& window) {
+    float healthPercentage = static_cast<float>(m_Health) / m_MaxHealth;
+    if (healthPercentage < 1.0f) {
+        window.draw(m_HealthBarBackground);
+        window.draw(m_HealthBar);
+    }
 }
 
 void Unit::setTextureSize(float width, float height) {
@@ -45,9 +72,11 @@ void Unit::adjustPosition(const std::vector<Unit*>& units) {
         }
     }
 
-    // Smooth movement
-    float moveDistance = (targetX - myX) * 0.1f; // Adjust 0.1f for faster/slower adjustment
-    m_Sprite.move(moveDistance, 0);
+    // Only move backward, never forward
+    if (targetX < myX) {
+        float moveDistance = (targetX - myX) * 0.1f; // Adjust 0.1f for faster/slower adjustment
+        m_Sprite.move(moveDistance, 0);
+    }
 }
 
 float Unit::getSpacing() const
@@ -80,6 +109,7 @@ void Unit::update() {
 
 void Unit::render(sf::RenderWindow& window) {
     window.draw(m_Sprite);
+    renderHealthBar(window);
 }
 
 void Unit::setState(UnitState state) {
@@ -115,6 +145,7 @@ void Unit::takeDamage(int damage) {
         m_Health = 0;
         setState(UnitState::DYING);
     }
+    updateHealthBar();
 }
 
 bool Unit::isAlive() const {
@@ -186,6 +217,7 @@ void Unit::move() {
     if (m_State == UnitState::MOVING) {
         if (m_Sprite.getPosition().x < m_TargetPosition.x - m_AttackRange) {
             m_Sprite.move(m_Speed * 0.01f, 0);
+            updateHealthBar(); // Update health bar position
         }
         else {
             setState(UnitState::FIGHTING);

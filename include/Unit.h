@@ -34,6 +34,7 @@ public:
     virtual void move();
     void spreadOut(float centerX, float spreadDistance);
     void adjustPosition(const std::vector<Unit*>& units);
+    void renderHealthBar(sf::RenderWindow& window);
 
     // Getters
     sf::Vector2f getPosition() const;
@@ -59,8 +60,14 @@ protected:
     float m_Spacing;
     UnitState m_State;
     sf::Clock m_AttackCooldown;
+    int m_MaxHealth;
 
     static constexpr float ATTACK_COOLDOWN = 1.0f; // Attack every 1 second
+
+    sf::RectangleShape m_HealthBar;
+    sf::RectangleShape m_HealthBarBackground;
+
+    void updateHealthBar();
 
     void setTextureSize(float width, float height);
     void moveToTarget();

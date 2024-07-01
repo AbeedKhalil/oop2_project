@@ -9,7 +9,10 @@
 #include "Tank3.h"
 
 
-PlayState::PlayState(Game* game) : State(game),m_EnemyResources(0), m_EnemySpawnInterval(0.0f) {
+PlayState::PlayState(Game* game) : State(game),m_EnemyResources(0), m_EnemySpawnInterval(0.0f), m_CanBuyTurret1(false),
+m_CanBuyTurret2(false),
+m_CanUpgradeTurret1(false),
+m_CanUpgradeTurret2(false) {
     m_Font.loadFromFile("MainMenu.otf");
     m_ResourceText.setFont(m_Font);
     m_ResourceText.setCharacterSize(24);
@@ -37,6 +40,10 @@ PlayState::PlayState(Game* game) : State(game),m_EnemyResources(0), m_EnemySpawn
         break;
     }
 
+    // Load turret icons
+    m_TurretIcon1.setTexture(TextureManager::getInstance().getTexture("skeleton1-Shoot_0.png"));
+    m_TurretIcon2.setTexture(TextureManager::getInstance().getTexture("skeleton1-Shoot_0.png"));
+
     // Load unit icons
     m_Shooter1Icon.setTexture(TextureManager::getInstance().getTexture("skeleton1-Idle_0.png"));
     m_Shooter2Icon.setTexture(TextureManager::getInstance().getTexture("skeleton6-Idle_0.png"));
@@ -53,6 +60,8 @@ PlayState::PlayState(Game* game) : State(game),m_EnemyResources(0), m_EnemySpawn
     m_Tank1Background.setSize(iconSize);
     m_Tank2Background.setSize(iconSize);
     m_Tank3Background.setSize(iconSize);
+    m_TurretBackground1.setSize(iconSize);
+    m_TurretBackground2.setSize(iconSize);
 
     sf::Color backgroundColor(200, 200, 200);
     m_Shooter1Background.setFillColor(backgroundColor);
@@ -61,6 +70,8 @@ PlayState::PlayState(Game* game) : State(game),m_EnemyResources(0), m_EnemySpawn
     m_Tank1Background.setFillColor(backgroundColor);
     m_Tank2Background.setFillColor(backgroundColor);
     m_Tank3Background.setFillColor(backgroundColor);
+    m_TurretBackground1.setFillColor(backgroundColor);
+    m_TurretBackground2.setFillColor(backgroundColor);
 
     // Position icons and backgrounds
     float startX = 10, startY = 10, spacing = 115;
@@ -70,6 +81,8 @@ PlayState::PlayState(Game* game) : State(game),m_EnemyResources(0), m_EnemySpawn
     m_Tank1Background.setPosition(startX + spacing * 3, startY);
     m_Tank2Background.setPosition(startX + spacing * 4, startY);
     m_Tank3Background.setPosition(startX + spacing * 5, startY);
+    m_TurretBackground1.setPosition(startX + spacing * 6, startY);
+    m_TurretBackground2.setPosition(startX + spacing * 7, startY);
 
     // resource positions 
     m_Shooter1.setPosition(startX + 18.0f, startY + 80.0f);
@@ -121,6 +134,8 @@ PlayState::PlayState(Game* game) : State(game),m_EnemyResources(0), m_EnemySpawn
     m_Tank1Icon.setPosition(startX + spacing * 3 + iconOffset + 5.0f, startY + iconOffset);
     m_Tank2Icon.setPosition(startX + spacing * 4 + iconOffset, startY + iconOffset);
     m_Tank3Icon.setPosition(startX + spacing * 5 + iconOffset - 23.0f, startY + iconOffset - 28.0f);
+    m_TurretIcon1.setPosition(startX + spacing * 6 + iconOffset, startY + iconOffset + 20.0f);
+    m_TurretIcon2.setPosition(startX + spacing * 7 + iconOffset, startY + iconOffset + 20.0f);
 
     // Scale icons to fit in the backgrounds
     float iconScale = 0.75f;
@@ -130,6 +145,8 @@ PlayState::PlayState(Game* game) : State(game),m_EnemyResources(0), m_EnemySpawn
     m_Tank1Icon.setScale(iconScale, iconScale);
     m_Tank2Icon.setScale(iconScale, iconScale);
     m_Tank3Icon.setScale(iconScale * 0.35f, iconScale * 0.35f);
+    m_TurretIcon1.setScale(iconScale * 0.5f, iconScale * 0.5f);
+    m_TurretIcon2.setScale(iconScale * 0.5f, iconScale * 0.5f);
 }
 
 PlayState::~PlayState() {
@@ -172,6 +189,23 @@ void PlayState::handleInput(sf::Event event) {
         else if (m_Tank3Background.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
             spawnUnit(UnitType::TANK_3);
         }
+        // Handle turret purchases and upgrades
+        if (m_TurretBackground1.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+            if (m_CanBuyTurret1) {
+                handleTurretPurchase(0);
+            }
+            else if (m_CanUpgradeTurret1) {
+                handleTurretUpgrade(0);
+            }
+        }
+        else if (m_TurretBackground2.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+            if (m_CanBuyTurret2) {
+                handleTurretPurchase(1);
+            }
+            else if (m_CanUpgradeTurret2) {
+                handleTurretUpgrade(1);
+            }
+        }
     }
 }
 
@@ -193,6 +227,9 @@ void PlayState::update() {
     updateResources();
     accumulateResources();
     updateEnemyAI();
+    m_Castle->update();
+    m_EnemyCastle->update();
+    updateTurretButtons();
 }
 
 
@@ -236,6 +273,10 @@ void PlayState::render(sf::RenderWindow& window) {
     window.draw(m_Tank2Background);
     window.draw(m_Tank3Background);
 
+    // Draw turret icon backgrounds
+    window.draw(m_TurretBackground1);
+    window.draw(m_TurretBackground2);
+
     // Draw icons
     window.draw(m_Shooter1Icon);
     window.draw(m_Shooter2Icon);
@@ -243,7 +284,7 @@ void PlayState::render(sf::RenderWindow& window) {
     window.draw(m_Tank1Icon);
     window.draw(m_Tank2Icon);
     window.draw(m_Tank3Icon);
-
+  
     // draw resources 
     window.draw(m_Shooter1);
     window.draw(m_Shooter2);
@@ -251,7 +292,10 @@ void PlayState::render(sf::RenderWindow& window) {
     window.draw(m_tank1);
     window.draw(m_tank2);
     window.draw(m_tank3);
-
+  
+    // Draw turret icons
+    window.draw(m_TurretIcon1);
+    window.draw(m_TurretIcon2);
 
     for (auto& unit : m_PlayerUnits) {
         unit->render(window);
@@ -260,6 +304,28 @@ void PlayState::render(sf::RenderWindow& window) {
         unit->render(window);
     }
     window.draw(m_ResourceText);
+}
+
+void PlayState::updateTurretButtons() {
+    m_CanBuyTurret1 = m_Game->getResources() >= TURRET_COST && !m_Castle->hasTurret(0);
+    m_CanBuyTurret2 = m_Game->getResources() >= TURRET_COST && !m_Castle->hasTurret(1);
+    m_CanUpgradeTurret1 = m_Game->getResources() >= TURRET_UPGRADE_COST && m_Castle->getTurretLevel(0) < 3;
+    m_CanUpgradeTurret2 = m_Game->getResources() >= TURRET_UPGRADE_COST && m_Castle->getTurretLevel(1) < 3;
+}
+
+void PlayState::handleTurretPurchase(int position) {
+    if (m_Game->getResources() >= TURRET_COST) {
+        if (m_Castle->addTurret(1, position)) {
+            m_Game->spendResources(TURRET_COST);
+        }
+    }
+}
+
+void PlayState::handleTurretUpgrade(int position) {
+    if (m_Game->getResources() >= TURRET_UPGRADE_COST) {
+        m_Castle->upgradeTurret(position);
+        m_Game->spendResources(TURRET_UPGRADE_COST);
+    }
 }
 
 void PlayState::updateResources() {

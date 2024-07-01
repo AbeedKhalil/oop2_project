@@ -53,7 +53,7 @@ m_CanUpgradeTurret2(false) {
     m_Tank3Icon.setTexture(TextureManager::getInstance().getTexture("skeleton12-Idle_0.png"));
 
     // Set up icon backgrounds
-    sf::Vector2f iconSize(100, 100);
+    sf::Vector2f iconSize(110, 110);
     m_Shooter1Background.setSize(iconSize);
     m_Shooter2Background.setSize(iconSize);
     m_Shooter3Background.setSize(iconSize);
@@ -83,6 +83,48 @@ m_CanUpgradeTurret2(false) {
     m_Tank3Background.setPosition(startX + spacing * 5, startY);
     m_TurretBackground1.setPosition(startX + spacing * 6, startY);
     m_TurretBackground2.setPosition(startX + spacing * 7, startY);
+
+    // resource positions 
+    m_Shooter1.setPosition(startX + 18.0f, startY + 80.0f);
+    m_Shooter2.setPosition(startX + spacing + 18.0f, startY + 80.0f);
+    m_Shooter3.setPosition(startX + spacing * 2 + 18.0f, startY + 80.0f);
+    m_tank1.setPosition(startX + spacing * 3 + 18.0f, startY + 80.0f);
+    m_tank2.setPosition(startX + spacing * 4 + 18.0f, startY + 80.0f);
+    m_tank3.setPosition(startX + spacing * 5 + 18.0f, startY + 80.0f);
+    
+    // resources color 
+    m_Shooter1.setFillColor(sf::Color::Black);
+    m_Shooter2.setFillColor(sf::Color::Black);
+    m_Shooter3.setFillColor(sf::Color::Black);
+    m_tank1.setFillColor(sf::Color::Black);
+    m_tank2.setFillColor(sf::Color::Black);
+    m_tank3.setFillColor(sf::Color::Black);
+
+    // resource prices 
+    m_Shooter1.setString("(10$)");
+    m_Shooter2.setString("(10$)");
+    m_Shooter3.setString("(10$)");
+    m_tank1.setString("(20$)");
+    m_tank2.setString("(20$)");
+    m_tank3.setString("(20$)");
+    
+    // resources characters size
+
+    m_Shooter1.setCharacterSize(20);
+    m_Shooter2.setCharacterSize(20);
+    m_Shooter3.setCharacterSize(20);
+    m_tank1.setCharacterSize(20);
+    m_tank2.setCharacterSize(20);
+    m_tank3.setCharacterSize(20);
+
+    // resources font
+    m_Shooter1.setFont(m_Font);
+    m_Shooter2.setFont(m_Font);
+    m_Shooter3.setFont(m_Font);
+    m_tank1.setFont(m_Font);
+    m_tank2.setFont(m_Font);
+    m_tank3.setFont(m_Font);
+
 
     // Position icons (slightly offset from backgrounds)
     float iconOffset = 5;
@@ -191,6 +233,7 @@ void PlayState::update() {
 }
 
 
+
 void PlayState::checkUnitsAttackingCastle() {
     // Check player units attacking enemy castle
     for (auto& unit : m_PlayerUnits) {
@@ -241,7 +284,15 @@ void PlayState::render(sf::RenderWindow& window) {
     window.draw(m_Tank1Icon);
     window.draw(m_Tank2Icon);
     window.draw(m_Tank3Icon);
-
+  
+    // draw resources 
+    window.draw(m_Shooter1);
+    window.draw(m_Shooter2);
+    window.draw(m_Shooter3);
+    window.draw(m_tank1);
+    window.draw(m_tank2);
+    window.draw(m_tank3);
+  
     // Draw turret icons
     window.draw(m_TurretIcon1);
     window.draw(m_TurretIcon2);

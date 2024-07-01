@@ -56,6 +56,15 @@ private:
     float m_EnemySpawnInterval;
     int m_EnemyResources;
 
+    // text up the units 
+    sf::Text m_Shooter1;
+    sf::Text m_Shooter2;
+    sf::Text m_Shooter3;
+    sf::Text m_tank1;
+    sf::Text m_tank2;
+    sf::Text m_tank3;
+
+    
     // Helper methods for game logic
     void updateResources();
     void accumulateResources();

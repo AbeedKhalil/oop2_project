@@ -55,8 +55,6 @@ float Unit::getSpacing() const
     return m_Spacing;
 }
 
-
-
 void Unit::update() {
     switch (m_State) {
     case UnitState::IDLE:
@@ -185,15 +183,12 @@ void Unit::combat() {
 }
 
 void Unit::move() {
-    if (m_State == UnitState::MOVING && m_Sprite.getPosition().x == ENEMY_CASTLE_X - 100.0f) {
-        setState(UnitState::FIGHTING);
-    }
-    if (m_State != UnitState::FIGHTING) {
-        if (m_Sprite.getPosition().x < m_TargetPosition.x + m_AttackRange) {
+    if (m_State == UnitState::MOVING) {
+        if (m_Sprite.getPosition().x < m_TargetPosition.x - m_AttackRange) {
             m_Sprite.move(m_Speed * 0.01f, 0);
         }
         else {
-            setState(UnitState::IDLE);
+            setState(UnitState::FIGHTING);
         }
     }
 }

@@ -13,6 +13,22 @@ Castle::Castle(const std::string& texturePath, float x, float y) : m_Health(8000
 
     m_Turrets[0] = nullptr;
     m_Turrets[1] = nullptr;
+
+    // Load font
+    if (!m_Font.loadFromFile("MainMenu.otf")) {
+        // Handle font loading error
+    }
+
+    // Set up health text
+    m_HealthText.setFont(m_Font);
+    m_HealthText.setCharacterSize(20);
+    m_HealthText.setFillColor(sf::Color::White);
+
+    // Set up health bar
+    m_HealthBar.setFillColor(sf::Color::Green);
+    m_HealthBarBackground.setFillColor(sf::Color(100, 100, 100));
+
+    updateHealthBar();
 }
 
 Castle::~Castle() {
@@ -23,6 +39,7 @@ Castle::~Castle() {
 
 void Castle::render(sf::RenderWindow& window) {
     window.draw(m_Sprite);
+    renderHealthBar(window);
     for (int i = 0; i < 2; ++i) {
         if (m_Turrets[i]) {
             m_Turrets[i]->render(window);
@@ -35,6 +52,36 @@ void Castle::takeDamage(int damage) {
     if (m_Health < 0) {
         m_Health = 0;
     }
+    updateHealthBar();
+}
+
+void Castle::updateHealthBar() {
+    float healthPercentage = static_cast<float>(m_Health) / 8000.0f;
+
+    // Update text
+    m_HealthText.setString(std::to_string(static_cast<int>(healthPercentage * 100)) + "%");
+
+    // Position text and health bar
+    sf::FloatRect textBounds = m_HealthText.getLocalBounds();
+    m_HealthText.setOrigin(textBounds.width / 2, textBounds.height / 2);
+    m_HealthText.setPosition(m_Sprite.getPosition().x + m_Sprite.getGlobalBounds().width / 2,
+        m_Sprite.getPosition().y - 30);
+
+    // Update health bar
+    float barWidth = 100.0f;
+    float barHeight = 10.0f;
+    m_HealthBarBackground.setSize(sf::Vector2f(barWidth, barHeight));
+    m_HealthBar.setSize(sf::Vector2f(barWidth * healthPercentage, barHeight));
+
+    m_HealthBarBackground.setPosition(m_Sprite.getPosition().x + m_Sprite.getGlobalBounds().width / 2 - barWidth / 2,
+        m_Sprite.getPosition().y - 50);
+    m_HealthBar.setPosition(m_HealthBarBackground.getPosition());
+}
+
+void Castle::renderHealthBar(sf::RenderWindow& window) {
+    window.draw(m_HealthBarBackground);
+    window.draw(m_HealthBar);
+    window.draw(m_HealthText);
 }
 
 bool Castle::isDestroyed() const {

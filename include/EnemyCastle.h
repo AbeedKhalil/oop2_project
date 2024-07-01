@@ -6,9 +6,8 @@
 class EnemyCastle : public Castle {
 public:
     EnemyCastle(const std::string& texturePath, float x, float y);
-    
-    void render(sf::RenderWindow& window);  // Declare the render method
-    // Add any enemy-specific methods or overrides here
+
+    void render(sf::RenderWindow& window);
 };
 
 #endif // ENEMYCASTLE_H

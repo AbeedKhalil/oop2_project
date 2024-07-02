@@ -57,11 +57,11 @@ const int TANK_3_HEALTH = 750;
 
 // Unit damage values
 const int SHOOTER_1_DAMAGE = 20;
-const int SHOOTER_2_DAMAGE = 30;
+const int SHOOTER_2_DAMAGE = 35;
 const int SHOOTER_3_DAMAGE = 30;
 const int TANK_1_DAMAGE = 40;
 const int TANK_2_DAMAGE = 50;
-const int TANK_3_DAMAGE = 50;
+const int TANK_3_DAMAGE = 70;
 
 // Unit gold worth
 const int SHOOTER_1_WORTH = 100;
@@ -72,12 +72,12 @@ const int TANK_2_WORTH = 300;
 const int TANK_3_WORTH = 600;
 
 // Speed for each unit type
-const float SHOOTER_1_SPEED = 25.0f;
-const float SHOOTER_2_SPEED = 22.0f;
-const float SHOOTER_3_SPEED = 20.0f;
-const float TANK_1_SPEED = 15.0f;
-const float TANK_2_SPEED = 13.0f;
-const float TANK_3_SPEED = 20.0f;
+const float SHOOTER_1_SPEED = 20.0f;
+const float SHOOTER_2_SPEED = 18.0f;
+const float SHOOTER_3_SPEED = 22.0f;
+const float TANK_1_SPEED = 13.0f;
+const float TANK_2_SPEED = 11.0f;
+const float TANK_3_SPEED = 18.0f;
 
 // Attack ranges for each unit type
 const float SHOOTER_1_ATTACK_RANGE = 150.0f;

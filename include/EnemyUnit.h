@@ -11,12 +11,12 @@ public:
     EnemyUnit(float speed, int health, int damage, float attackRange, int goldWorth,
         const std::string& texturePath, float spawnX, float spawnY, float width, float height, float spacing);
 
+    bool isPlayerUnit() const override { return false; }
+
     // Override methods for enemy-specific behavior
     void update() override;
     void render(sf::RenderWindow& window) override;
     void move() override;
-    void adjustPosition(const std::vector<Unit*>& units);
-    void checkForEnemyInRange();
 };
 
 #endif // ENEMYUNIT_H

@@ -23,42 +23,13 @@ EnemyUnit::EnemyUnit(float speed, int health, int damage, float attackRange, int
 
 void EnemyUnit::move() {
     if (m_State == UnitState::MOVING) {
-        if (m_Sprite.getPosition().x > m_TargetPosition.x + m_AttackRange) {
+        if (m_Sprite.getPosition().x > m_TargetPosition.x) {
             m_Sprite.move(-m_Speed * 0.01f, 0);
         }
         else {
             setState(UnitState::IDLE);
         }
     }
-}
-
-void EnemyUnit::adjustPosition(const std::vector<Unit*>& units) {
-    float myX = m_Sprite.getPosition().x;
-    float targetX = myX;
-
-    // Find the unit immediately behind this one
-    Unit* unitBehind = nullptr;
-    float maxDistance = std::numeric_limits<float>::min();
-
-    for (const auto& unit : units) {
-        if (unit == this) continue;
-        float otherX = unit->getPosition().x;
-        if (otherX < myX && myX - otherX < maxDistance) {
-            maxDistance = myX - otherX;
-            unitBehind = unit;
-        }
-    }
-
-    if (unitBehind) {
-        float desiredX = unitBehind->getPosition().x + (this->getSpacing() + unitBehind->getSpacing()) / 2;
-        if (myX < desiredX) {
-            targetX = desiredX;
-        }
-    }
-
-    // Smooth movement
-    float moveDistance = (targetX - myX) * 0.1f; // Adjust 0.1f for faster/slower adjustment
-    m_Sprite.move(moveDistance, 0);
 }
 
 void EnemyUnit::update() {

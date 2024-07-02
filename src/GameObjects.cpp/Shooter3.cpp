@@ -1,5 +1,4 @@
 #include "Shooter3.h"
-#include "Constants.h"
 
 Shooter3::Shooter3() : Unit(SHOOTER_3_SPEED, SHOOTER_3_HEALTH, SHOOTER_3_DAMAGE, SHOOTER_3_ATTACK_RANGE, SHOOTER_3_WORTH, "skeleton11-Idle_0.png", SOLDIER_TEXTURE_WIDTH, SOLDIER_TEXTURE_HEIGHT, SHOOTER_3_SPACING) {
     // Additional initialization if needed

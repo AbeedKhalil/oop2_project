@@ -233,21 +233,19 @@ void PlayState::update() {
 }
 
 void PlayState::checkUnitsAttackingCastle() {
-    //const float CASTLE_ATTACK_DISTANCE = 100.0f; // Adjust this value as needed
-
     // Check player units attacking enemy castle
     for (auto& unit : m_PlayerUnits) {
         float distanceToCastle = std::abs(unit->getPosition().x - m_EnemyCastle->getPosition().x);
-        if (distanceToCastle <= CASTLE_ATTACK_DISTANCE) {
+        if (distanceToCastle <= unit->getAttackRange()) {
             unit->setState(UnitState::FIGHTING);
-            unit->attackCastle(m_EnemyCastle);
+            unit->attackCastle(static_cast<Castle*>(m_EnemyCastle));
         }
     }
 
     // Check enemy units attacking player castle
     for (auto& unit : m_EnemyUnits) {
         float distanceToCastle = std::abs(unit->getPosition().x - m_Castle->getPosition().x);
-        if (distanceToCastle <= CASTLE_ATTACK_DISTANCE) {
+        if (distanceToCastle <= unit->getAttackRange()) {
             unit->setState(UnitState::FIGHTING);
             unit->attackCastle(m_Castle);
         }
@@ -381,37 +379,37 @@ EnemyUnit* PlayState::createRandomEnemyUnit() {
     case 0:
         if (m_EnemyResources >= SHOOTER_1_WORTH) {
             m_EnemyResources -= SHOOTER_1_WORTH;
-            return new EnemyUnit(SHOOTER_1_SPEED, SHOOTER_1_HEALTH, SHOOTER_1_DAMAGE, SHOOTER_1_ATTACK_RANGE, SHOOTER_1_WORTH, "skeleton1-Idle_0.png", spawnX, spawnY + 25.0f, SOLDIER_TEXTURE_WIDTH, SOLDIER_TEXTURE_HEIGHT, SHOOTER_1_SPACING + 250.0f);
+            return new EnemyUnit(SHOOTER_1_SPEED, SHOOTER_1_HEALTH-100, SHOOTER_1_DAMAGE, SHOOTER_1_ATTACK_RANGE, SHOOTER_1_WORTH, "skeleton1-Idle_0.png", spawnX, spawnY + 25.0f, SOLDIER_TEXTURE_WIDTH, SOLDIER_TEXTURE_HEIGHT, SHOOTER_1_SPACING);
         }
         break;
     case 1:
         if (m_EnemyResources >= SHOOTER_2_WORTH) {
             m_EnemyResources -= SHOOTER_2_WORTH;
-            return new EnemyUnit(SHOOTER_2_SPEED, SHOOTER_2_HEALTH, SHOOTER_2_DAMAGE, SHOOTER_2_ATTACK_RANGE, SHOOTER_2_WORTH, "skeleton6-Idle_0.png", spawnX, spawnY + 25.0f, SOLDIER_TEXTURE_WIDTH, SOLDIER_TEXTURE_HEIGHT, SHOOTER_2_SPACING + 250.0f);
+            return new EnemyUnit(SHOOTER_2_SPEED, SHOOTER_2_HEALTH-100, SHOOTER_2_DAMAGE, SHOOTER_2_ATTACK_RANGE, SHOOTER_2_WORTH, "skeleton6-Idle_0.png", spawnX, spawnY + 25.0f, SOLDIER_TEXTURE_WIDTH, SOLDIER_TEXTURE_HEIGHT, SHOOTER_2_SPACING);
         }
         break;
     case 2:
         if (m_EnemyResources >= SHOOTER_3_WORTH) {
             m_EnemyResources -= SHOOTER_3_WORTH;
-            return new EnemyUnit(SHOOTER_3_SPEED, SHOOTER_3_HEALTH, SHOOTER_3_DAMAGE, SHOOTER_3_ATTACK_RANGE, SHOOTER_3_WORTH, "skeleton11-Idle_0.png", spawnX, spawnY + 25.0f, SOLDIER_TEXTURE_WIDTH, SOLDIER_TEXTURE_HEIGHT, SHOOTER_3_SPACING + 250.0f);
+            return new EnemyUnit(SHOOTER_3_SPEED, SHOOTER_3_HEALTH-100, SHOOTER_3_DAMAGE, SHOOTER_3_ATTACK_RANGE, SHOOTER_3_WORTH, "skeleton11-Idle_0.png", spawnX, spawnY + 25.0f, SOLDIER_TEXTURE_WIDTH, SOLDIER_TEXTURE_HEIGHT, SHOOTER_3_SPACING);
         }
         break;
     case 3:
         if (m_EnemyResources >= TANK_1_WORTH) {
             m_EnemyResources -= TANK_1_WORTH;
-            return new EnemyUnit(TANK_1_SPEED, TANK_1_HEALTH, TANK_1_DAMAGE, TANK_1_ATTACK_RANGE, TANK_1_WORTH, "skeleton8-Idle_0.png", spawnX, spawnY + 25.0f, TANK_TEXTURE_WIDTH * 0.5f, TANK_TEXTURE_HEIGHT * 0.5f, TANK_1_SPACING + 150.0f);
+            return new EnemyUnit(TANK_1_SPEED, TANK_1_HEALTH-100, TANK_1_DAMAGE, TANK_1_ATTACK_RANGE, TANK_1_WORTH, "skeleton8-Idle_0.png", spawnX, spawnY + 25.0f, TANK_TEXTURE_WIDTH * 0.5f, TANK_TEXTURE_HEIGHT * 0.5f, TANK_1_SPACING);
         }
         break;
     case 4:
         if (m_EnemyResources >= TANK_2_WORTH) {
             m_EnemyResources -= TANK_2_WORTH;
-            return new EnemyUnit(TANK_2_SPEED, TANK_2_HEALTH, TANK_2_DAMAGE, TANK_2_ATTACK_RANGE, TANK_2_WORTH, "skeleton10-Idle_0.png", spawnX, spawnY + 25.0f, TANK_TEXTURE_WIDTH * 0.5f, TANK_TEXTURE_HEIGHT * 0.5f, TANK_2_SPACING + 150.0f);
+            return new EnemyUnit(TANK_2_SPEED, TANK_2_HEALTH-50, TANK_2_DAMAGE, TANK_2_ATTACK_RANGE, TANK_2_WORTH, "skeleton10-Idle_0.png", spawnX, spawnY + 25.0f, TANK_TEXTURE_WIDTH * 0.5f, TANK_TEXTURE_HEIGHT * 0.5f, TANK_2_SPACING);
         }
         break;
     case 5:
         if (m_EnemyResources >= TANK_3_WORTH) {
             m_EnemyResources -= TANK_3_WORTH;
-            return new EnemyUnit(TANK_3_SPEED, TANK_3_HEALTH, TANK_3_DAMAGE, TANK_3_ATTACK_RANGE, TANK_3_WORTH, "skeleton12-Idle_0.png", spawnX, spawnY, TANK_TEXTURE_WIDTH, TANK_TEXTURE_HEIGHT, TANK_3_SPACING + 150.0f);
+            return new EnemyUnit(TANK_3_SPEED, TANK_3_HEALTH - 500, TANK_3_DAMAGE, TANK_3_ATTACK_RANGE, TANK_3_WORTH, "skeleton12-Idle_0.png", spawnX, spawnY, TANK_TEXTURE_WIDTH, TANK_TEXTURE_HEIGHT, TANK_3_SPACING);
         }
         break;
     }
@@ -480,30 +478,35 @@ void PlayState::manageUnits() {
         }
 
         bool inCombat = false;
-        for (auto& enemyUnit : m_EnemyUnits) {
-            if (!enemyUnit->isAlive()) {
-                continue;
-            }
+        float distanceToEnemyCastle = std::abs(playerUnit->getPosition().x - m_EnemyCastle->getPosition().x);
 
-            float distance = std::abs(playerUnit->getPosition().x - enemyUnit->getPosition().x);
-            if (distance <= playerUnit->getAttackRange()) {
-                inCombat = true;
-                if (playerUnit->getState() != UnitState::FIGHTING) {
+        if (distanceToEnemyCastle <= playerUnit->getAttackRange()) {
+            inCombat = true;
+            playerUnit->setState(UnitState::FIGHTING);
+            playerUnit->setTargetEnemyCastle(m_EnemyCastle);
+        }
+        else {
+            for (auto& enemyUnit : m_EnemyUnits) {
+                if (!enemyUnit->isAlive()) {
+                    continue;
+                }
+
+                float distance = std::abs(playerUnit->getPosition().x - enemyUnit->getPosition().x);
+                if (distance <= playerUnit->getAttackRange()) {
+                    inCombat = true;
                     playerUnit->setState(UnitState::FIGHTING);
                     playerUnit->engageCombat(enemyUnit);
+                    break;
                 }
-                if (enemyUnit->getState() != UnitState::FIGHTING) {
-                    enemyUnit->setState(UnitState::FIGHTING);
-                    enemyUnit->engageCombat(playerUnit);
-                }
-                break;
             }
         }
+
         if (!inCombat && playerUnit->getState() == UnitState::FIGHTING) {
             playerUnit->setState(UnitState::MOVING);
         }
     }
 
+    // Enemy unit logic
     for (auto& enemyUnit : m_EnemyUnits) {
         if (!enemyUnit->isAlive()) {
             unitsToRemove.push_back(enemyUnit);
@@ -511,25 +514,29 @@ void PlayState::manageUnits() {
         }
 
         bool inCombat = false;
-        for (auto& playerUnit : m_PlayerUnits) {
-            if (!playerUnit->isAlive()) {
-                continue;
-            }
+        float distanceToPlayerCastle = std::abs(enemyUnit->getPosition().x - m_Castle->getPosition().x);
 
-            float distance = std::abs(enemyUnit->getPosition().x - playerUnit->getPosition().x);
-            if (distance <= enemyUnit->getAttackRange()) {
-                inCombat = true;
-                if (enemyUnit->getState() != UnitState::FIGHTING) {
+        if (distanceToPlayerCastle <= enemyUnit->getAttackRange()) {
+            inCombat = true;
+            enemyUnit->setState(UnitState::FIGHTING);
+            enemyUnit->setTargetCastle(m_Castle);
+        }
+        else {
+            for (auto& playerUnit : m_PlayerUnits) {
+                if (!playerUnit->isAlive()) {
+                    continue;
+                }
+
+                float distance = std::abs(enemyUnit->getPosition().x - playerUnit->getPosition().x);
+                if (distance <= enemyUnit->getAttackRange()) {
+                    inCombat = true;
                     enemyUnit->setState(UnitState::FIGHTING);
                     enemyUnit->engageCombat(playerUnit);
+                    break;
                 }
-                if (playerUnit->getState() != UnitState::FIGHTING) {
-                    playerUnit->setState(UnitState::FIGHTING);
-                    playerUnit->engageCombat(enemyUnit);
-                }
-                break;
             }
         }
+
         if (!inCombat && enemyUnit->getState() == UnitState::FIGHTING) {
             enemyUnit->setState(UnitState::MOVING);
         }

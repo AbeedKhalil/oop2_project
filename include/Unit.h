@@ -19,6 +19,7 @@ public:
 
     void update() override;
     void render(sf::RenderWindow& window) override;
+    virtual bool isPlayerUnit() const { return true; }
 
     // Combat-related methods
     void takeDamage(int damage);
@@ -28,6 +29,9 @@ public:
     void attack(Unit* target);
     void attackCastle(Castle* castle);
     float getAttackRange() const;
+    void setTargetCastle(Castle* castle) { m_TargetCastle = castle; }
+    void setTargetEnemyCastle(EnemyCastle* enemyCastle) { m_TargetCastle = enemyCastle; }
+
 
     // Movement-related methods
     void setTargetPosition(float x, float y);
@@ -61,6 +65,7 @@ protected:
     UnitState m_State;
     sf::Clock m_AttackCooldown;
     int m_MaxHealth;
+    Castle* m_TargetCastle;
 
     static constexpr float ATTACK_COOLDOWN = 1.0f; // Attack every 1 second
 

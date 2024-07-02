@@ -52,31 +52,43 @@ void Unit::adjustPosition(const std::vector<Unit*>& units) {
     float myX = m_Sprite.getPosition().x;
     float targetX = myX;
 
-    // Find the unit immediately in front of this one
-    Unit* unitInFront = nullptr;
+    // Find the nearest unit in the appropriate direction
+    Unit* nearestUnit = nullptr;
     float minDistance = std::numeric_limits<float>::max();
 
     for (const auto& unit : units) {
         if (unit == this) continue;
         float otherX = unit->getPosition().x;
-        if (otherX > myX && otherX - myX < minDistance) {
-            minDistance = otherX - myX;
-            unitInFront = unit;
+        float distance = std::abs(otherX - myX);
+
+        // For player units (moving right), look for units in front
+        // For enemy units (moving left), look for units behind
+        if ((this->isPlayerUnit() && otherX > myX && distance < minDistance) ||
+            (!this->isPlayerUnit() && otherX < myX && distance < minDistance)) {
+            minDistance = distance;
+            nearestUnit = unit;
         }
     }
 
-    if (unitInFront) {
-        float desiredX = unitInFront->getPosition().x - (this->getSpacing() + unitInFront->getSpacing()) / 2;
-        if (myX > desiredX) {
-            targetX = desiredX;
+    if (nearestUnit) {
+        float desiredX;
+        if (this->isPlayerUnit()) {
+            desiredX = nearestUnit->getPosition().x - (this->getSpacing() + nearestUnit->getSpacing()) / 2;
+            if (myX > desiredX) {
+                targetX = desiredX;
+            }
+        }
+        else {
+            desiredX = nearestUnit->getPosition().x + (this->getSpacing() + nearestUnit->getSpacing()) / 2;
+            if (myX < desiredX) {
+                targetX = desiredX;
+            }
         }
     }
 
-    // Only move backward, never forward
-    if (targetX < myX) {
-        float moveDistance = (targetX - myX) * 0.1f; // Adjust 0.1f for faster/slower adjustment
-        m_Sprite.move(moveDistance, 0);
-    }
+    // Smooth movement
+    float moveDistance = (targetX - myX) * 0.1f; // Adjust 0.1f for faster/slower adjustment
+    m_Sprite.move(moveDistance, 0);
 }
 
 float Unit::getSpacing() const
@@ -215,7 +227,7 @@ void Unit::combat() {
 
 void Unit::move() {
     if (m_State == UnitState::MOVING) {
-        if (m_Sprite.getPosition().x < m_TargetPosition.x - m_AttackRange) {
+        if (m_Sprite.getPosition().x < m_TargetPosition.x) {
             m_Sprite.move(m_Speed * 0.01f, 0);
             updateHealthBar(); // Update health bar position
         }

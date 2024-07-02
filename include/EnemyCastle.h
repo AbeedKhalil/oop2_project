@@ -7,6 +7,8 @@ class EnemyCastle : public Castle {
 public:
     EnemyCastle(const std::string& texturePath, float x, float y);
 
+    void takeDamage(int damage);
+
     void render(sf::RenderWindow& window);
 };
 

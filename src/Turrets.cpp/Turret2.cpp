@@ -7,5 +7,5 @@ void Turret2::upgrade() {
     m_Damage = TURRET_3_DAMAGE;
     m_Range = TURRET_3_RANGE;
     m_FireRate = TURRET_3_FIRE_RATE;
-    m_Sprite.setTexture(TextureManager::getInstance().getTexture("skeleton3-Shoot_0.png"));
+    m_Sprite.setTexture(TextureManager::getInstance().getTexture("skeleton3-Shoot_1.png"));
 }

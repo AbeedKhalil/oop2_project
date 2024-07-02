@@ -9,6 +9,10 @@ EnemyCastle::EnemyCastle(const std::string& texturePath, float x, float y)
     updateHealthBar();
 }
 
+void EnemyCastle::takeDamage(int damage) {
+    Castle::takeDamage(damage);  // Call the base class method
+}
+
 void EnemyCastle::render(sf::RenderWindow& window) {
     window.draw(m_Sprite);  // Render the sprite
     renderHealthBar(window);  // Render the health bar

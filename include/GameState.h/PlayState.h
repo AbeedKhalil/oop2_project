@@ -46,6 +46,7 @@ private:
     void updateTurretButtons();
     void handleTurretPurchase(int position);
     void handleTurretUpgrade(int position);
+    void updateIconBackgrounds();
 
     // Initialize player's turret icons
     sf::Sprite m_TurretIcon1, m_TurretIcon2;

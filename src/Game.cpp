@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "MenuState.h"
 
-Game::Game() : m_Window(sf::VideoMode(1920, 1080), "Age of War 2 Clone"), m_Resources(10000), m_CurrentDifficulty(Difficulty::NORMAL) {
+Game::Game() : m_Window(sf::VideoMode(1920, 1080), "Age of War 2 Clone"), m_Resources(1500), m_CurrentDifficulty(Difficulty::NORMAL) {
     m_States.push_back(new MenuState(this));
 }
 

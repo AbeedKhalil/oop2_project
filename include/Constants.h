@@ -25,8 +25,8 @@ static constexpr float UNIT_SPACING = 30.0f;
 static constexpr float SPREAD_DISTANCE = 30.0f;
 
 // Turret constants
-const int TURRET_COST = 250;
-const int TURRET_UPGRADE_COST = 200;
+const int TURRET_COST = 1000;
+const int TURRET_UPGRADE_COST = 1500;
 const float TURRET_1_DAMAGE = 30.0f;
 const float TURRET_2_DAMAGE = 50.0f;
 const float TURRET_3_DAMAGE = 80.0f;
@@ -42,8 +42,8 @@ const float TURRET_TEXTURE_WIDTH = 60.0f;
 const float TURRET_TEXTURE_HEIGHT = 60.0f;
 
 // Turret positions relative to castle
-const float TURRET_1_OFFSET_X = 28.0f;
-const float TURRET_1_OFFSET_Y = 15.0f;
+const float TURRET_1_OFFSET_X = 75.0f;
+const float TURRET_1_OFFSET_Y = 25.0f;
 const float TURRET_2_OFFSET_X = 20.0f;
 const float TURRET_2_OFFSET_Y = 75.0f;
 
@@ -83,8 +83,8 @@ const float TANK_3_SPEED = 18.0f;
 const float SHOOTER_1_ATTACK_RANGE = 150.0f;
 const float SHOOTER_2_ATTACK_RANGE = 180.0f;
 const float SHOOTER_3_ATTACK_RANGE = 200.0f;
-const float TANK_1_ATTACK_RANGE = 100.0f;
-const float TANK_2_ATTACK_RANGE = 120.0f;
+const float TANK_1_ATTACK_RANGE = 50.0f;
+const float TANK_2_ATTACK_RANGE = 70.0f;
 const float TANK_3_ATTACK_RANGE = 140.0f;
 
 // Unit spacing

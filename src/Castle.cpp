@@ -146,3 +146,12 @@ int Castle::getTurretLevel(int position) const {
     if (dynamic_cast<Turret3*>(m_Turrets[position])) return 3;
     return 0;
 }
+
+void Castle::turretsAttack(const std::vector<Unit*>& enemyUnits) {
+    for (Turret* turret : m_Turrets) {
+        if (turret) {
+            turret->update();
+            turret->attackNearestEnemy(enemyUnits);
+        }
+    }
+}

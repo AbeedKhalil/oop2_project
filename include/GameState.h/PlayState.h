@@ -43,6 +43,9 @@ private:
     bool m_CanUpgradeTurret1;
     bool m_CanUpgradeTurret2;
 
+    sf::Clock m_EnemyTurretTimer;
+    bool m_FirstTurretAdded;
+
     void updateTurretButtons();
     void handleTurretPurchase(int position);
     void handleTurretUpgrade(int position);
@@ -74,11 +77,14 @@ private:
     void checkUnitsAttackingCastle();
     void adjustUnitPositions();
 
+    void updateTurretAttacks();
+
     // Enemy AI methods
     void updateEnemyAI();
     void spawnEnemyUnit();
     void adjustEnemyUnitPositions();
     EnemyUnit* createRandomEnemyUnit();
+    void handleEnemyTurretPurchase();
 
     void spawnUnit(UnitType type);
 };

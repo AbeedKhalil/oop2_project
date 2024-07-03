@@ -3,6 +3,7 @@
 
 #include "TextureManager.h"
 #include "Turret.h"
+#include <vector>
 
 class Castle {
 public:
@@ -19,6 +20,7 @@ public:
     void upgradeTurret(int position);
     bool hasTurret(int position) const;
     int getTurretLevel(int position) const;
+    void turretsAttack(const std::vector<Unit*>& enemyUnits);
 
     void renderHealthBar(sf::RenderWindow& window);
 

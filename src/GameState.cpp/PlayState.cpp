@@ -12,7 +12,7 @@
 PlayState::PlayState(Game* game) : State(game),m_EnemyResources(0), m_EnemySpawnInterval(0.0f), m_CanBuyTurret1(false),
 m_CanBuyTurret2(false),
 m_CanUpgradeTurret1(false),
-m_CanUpgradeTurret2(false) {
+m_CanUpgradeTurret2(false), m_FirstTurretAdded(false) {
     m_Font.loadFromFile("MainMenu.otf");
     m_ResourceText.setFont(m_Font);
     m_ResourceText.setCharacterSize(24);
@@ -216,6 +216,11 @@ void PlayState::update() {
 
     checkUnitsAttackingCastle();
     manageUnits();
+
+    // Update turret attacks for both player and enemy
+    m_Castle->turretsAttack(m_EnemyUnits);
+    m_EnemyCastle->turretsAttack(m_PlayerUnits);
+
     updateResources();
     accumulateResources();
     updateEnemyAI();
@@ -364,6 +369,8 @@ void PlayState::updateEnemyAI() {
         unit->update();
     }
 
+    handleEnemyTurretPurchase();
+
     // Manage combat between player and enemy units
     manageUnits();
 }
@@ -423,6 +430,47 @@ EnemyUnit* PlayState::createRandomEnemyUnit() {
         break;
     }
     return nullptr; // If we can't afford any unit
+}
+
+void PlayState::handleEnemyTurretPurchase() {
+    // Check if 30 seconds have passed since the last turret action
+    if (m_EnemyTurretTimer.getElapsedTime().asSeconds() >= 30.0f) {
+        // Reset the timer
+        m_EnemyTurretTimer.restart();
+
+        // If it's the first turret, add it
+        if (!m_FirstTurretAdded) {
+            if (!m_EnemyCastle->hasTurret(0)) {
+                m_EnemyCastle->addTurret(1, 0);
+                //m_EnemyResources -= TURRET_COST;
+                m_FirstTurretAdded = true;
+                return;
+            }
+        }
+
+        // Randomly decide whether to add a new turret or upgrade an existing one
+        bool shouldAddTurret = (rand() % 2 == 0);
+
+        if (shouldAddTurret) {
+            // Try to add a new turret
+            if (!m_EnemyCastle->hasTurret(0)) {
+                m_EnemyCastle->addTurret(1, 0);
+                //m_EnemyResources -= TURRET_COST;
+            }
+            else if (!m_EnemyCastle->hasTurret(1)) {
+                m_EnemyCastle->addTurret(1, 1);
+                //m_EnemyResources -= TURRET_COST;
+            }
+        }
+        else if (m_EnemyResources) {
+            // Try to upgrade a random turret
+            int position = rand() % 2;
+            if (m_EnemyCastle->hasTurret(position) && m_EnemyCastle->getTurretLevel(position) < 3) {
+                m_EnemyCastle->upgradeTurret(position);
+                //m_EnemyResources -= TURRET_UPGRADE_COST;
+            }
+        }
+    }
 }
 
 void PlayState::spawnUnit(UnitType type) {
@@ -551,22 +599,29 @@ void PlayState::manageUnits() {
         }
     }
 
-    // Remove dead units and add 50% of their worth to the opponent's resources
-    for (auto unit : unitsToRemove) {
-        auto it = std::find(m_PlayerUnits.begin(), m_PlayerUnits.end(), unit);
-        if (it != m_PlayerUnits.end()) {
-            m_PlayerUnits.erase(it);
-            m_EnemyResources += unit->getGoldWorth(); // 100% of the unit's worth
-        }
-        else {
-            it = std::find(m_EnemyUnits.begin(), m_EnemyUnits.end(), unit);
-            if (it != m_EnemyUnits.end()) {
-                m_EnemyUnits.erase(it);
-                m_Game->addResources(unit->getGoldWorth() / 2); // 50% of the unit's worth
+    // Remove dead units
+    m_PlayerUnits.erase(std::remove_if(m_PlayerUnits.begin(), m_PlayerUnits.end(),
+        [this](Unit* unit) {
+            if (!unit->isAlive()) {
+                m_EnemyResources += unit->getGoldWorth();
+                delete unit;
+                return true;
             }
-        }
-        delete unit;
-    }
+            return false;
+        }), m_PlayerUnits.end());
+
+    m_EnemyUnits.erase(std::remove_if(m_EnemyUnits.begin(), m_EnemyUnits.end(),
+        [this](Unit* unit) {
+            if (!unit->isAlive()) {
+                m_Game->addResources(unit->getGoldWorth() / 2);
+                delete unit;
+                return true;
+            }
+            return false;
+        }), m_EnemyUnits.end());
+
+    // Update turrets after removing dead units
+    updateTurretAttacks();
 }
 
 void PlayState::checkCombat(Unit* playerUnit, Unit* enemyUnit) {
@@ -580,5 +635,14 @@ void PlayState::checkCombat(Unit* playerUnit, Unit* enemyUnit) {
 void PlayState::adjustUnitPositions() {
     for (auto& unit : m_PlayerUnits) {
         unit->adjustPosition(m_PlayerUnits);
+    }
+}
+
+void PlayState::updateTurretAttacks() {
+    if (m_Castle) {
+        m_Castle->turretsAttack(m_EnemyUnits);
+    }
+    if (m_EnemyCastle) {
+        m_EnemyCastle->turretsAttack(m_PlayerUnits);
     }
 }

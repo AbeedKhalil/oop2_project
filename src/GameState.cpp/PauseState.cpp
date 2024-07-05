@@ -19,9 +19,9 @@ PauseState::PauseState(Game* game) : State(game) {
 
     // Set up the Exit text
     m_ExitText.setFont(m_Font);
-    m_ExitText.setString("Exit to Menu");
+    m_ExitText.setString("Exit");
     m_ExitText.setCharacterSize(60);
-    m_ExitText.setPosition(765, 540);
+    m_ExitText.setPosition(910, 540);
 
     // Load background texture
     m_BackgroundSprite.setTexture(TextureManager::getInstance().getTexture("PlayBlur.png"));
@@ -80,7 +80,6 @@ void PauseState::handleMouseClick(sf::RenderWindow& window) {
     }
 
     if (exitBounds.contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y))) {
-        m_Game->clearStates();  // Exit to menu
-        m_Game->pushState(new MenuState(m_Game));  // Push the menu state
+        window.close();
     }
 }

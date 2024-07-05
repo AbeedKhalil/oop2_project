@@ -16,3 +16,8 @@ void Tank3::update() {
 void Tank3::render(sf::RenderWindow& window) {
     Unit::render(window); // Call base class render
 }
+
+void Tank3::playShootSound()
+{
+    SoundManager::getInstance().playSound("shoot");
+}

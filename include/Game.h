@@ -20,7 +20,9 @@ public:
     // State management
     void pushState(State* state);
     void popState();
+    State* getCurrentState();
     void clearStates();
+    void changeState(State* state);
 
     // Resource management
     int getResources() const;

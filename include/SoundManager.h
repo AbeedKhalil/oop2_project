@@ -14,6 +14,8 @@ public:
     // Sound management methods
     void loadSound(const std::string& name, const std::string& filename);
     void playSound(const std::string& name);
+    void setMusicVolume(float volume);
+    void stopMusic();
 
     // Music management methods
     void loadMusic(const std::string& filename);

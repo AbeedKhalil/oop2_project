@@ -12,6 +12,7 @@ public:
     // Override methods
     void update() override;
     void render(sf::RenderWindow& window) override;
+    void playShootSound() override;
 };
 
 #endif // SHOOTER1_H

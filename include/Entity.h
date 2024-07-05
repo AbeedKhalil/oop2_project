@@ -2,6 +2,7 @@
 #define ENTITY_H
 
 #include "TextureManager.h"
+#include "SoundManager.h"
 #include "Constants.h"
 
 class Entity {

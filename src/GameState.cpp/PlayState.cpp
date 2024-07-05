@@ -24,6 +24,13 @@ m_CanUpgradeTurret2(false), m_FirstTurretAdded(false) {
     // Load background texture
     m_BackgroundSprite.setTexture(TextureManager::getInstance().getTexture("Play.png"));
 
+    // Load and play background music
+    SoundManager::getInstance().loadMusic("PlayState.ogg");
+    SoundManager::getInstance().playMusic();
+    SoundManager::getInstance().setMusicVolume(50.0f);  // Set volume to 50%
+    
+    SoundManager::getInstance().loadSound("shoot", "shoot.ogg");
+
     m_Castle = new Castle("Castle.png", 0.0f, 770.0f);  // Player's castle position
     m_EnemyCastle = new EnemyCastle("EnemyCastle.png", 1821.0f, 770.0f);  // Enemy castle position
 

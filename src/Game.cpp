@@ -1,9 +1,9 @@
 #include "Game.h"
-#include "MenuState.h"
-#include "WinState.h"
+#include "IntroState.h"
+#include "GameOverState.h"
 
 Game::Game() : m_Window(sf::VideoMode(1920, 1080), "Age of War 2 Clone"), m_Resources(1500), m_CurrentDifficulty(Difficulty::NORMAL) {
-    m_States.push_back(new MenuState(this));
+    m_States.push_back(new IntroState(this));
 }
 
 Game::~Game() {
@@ -29,10 +29,26 @@ void Game::popState() {
     }
 }
 
+State* Game::getCurrentState() {
+    if (!m_States.empty()) {
+        return m_States.back();
+    }
+    return nullptr;
+}
+
 void Game::clearStates() {
     while (!m_States.empty()) {
         popState();
     }
+}
+
+void Game::changeState(State* state) {
+    SoundManager::getInstance().stopMusic();
+    if (!m_States.empty()) {
+        delete m_States.back();
+        m_States.pop_back();
+    }
+    m_States.push_back(state);
 }
 
 void Game::processEvents() {

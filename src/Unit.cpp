@@ -136,6 +136,7 @@ void Unit::attack(Unit* target) {
     if (m_AttackCooldown.getElapsedTime().asSeconds() >= ATTACK_COOLDOWN) {
         target->takeDamage(m_Damage);
         m_AttackCooldown.restart();
+        playShootSound();  // Play the shooting sound
     }
 }
 
@@ -143,12 +144,17 @@ void Unit::attackCastle(Castle* castle) {
     if (m_AttackCooldown.getElapsedTime().asSeconds() >= ATTACK_COOLDOWN) {
         castle->takeDamage(m_Damage);
         m_AttackCooldown.restart();
+        playShootSound();  // Play the shooting sound
     }
 }
 
 float Unit::getAttackRange() const
 {
     return m_AttackRange;
+}
+
+void Unit::playShootSound() {
+    // Default implementation does nothing
 }
 
 void Unit::takeDamage(int damage) {

@@ -21,6 +21,7 @@ public:
 
     void handleInput(sf::Event event) override;
     void update() override;
+    void updateTurretPrices();
     void render(sf::RenderWindow& window) override;
 
 private:
@@ -67,6 +68,8 @@ private:
     sf::Text m_tank1;
     sf::Text m_tank2;
     sf::Text m_tank3;
+    sf::Text m_TurretPrice1;
+    sf::Text m_TurretPrice2;
 
     
     // Helper methods for game logic

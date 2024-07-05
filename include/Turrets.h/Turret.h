@@ -23,6 +23,7 @@ public:
     void rotateTowardsTarget();
     void setTargetPosition(const sf::Vector2f& position);
     void clearTarget();
+    void setFlipped(bool flipped) { m_IsFlipped = flipped; }
 
     bool canFire() const;
     void fire();
@@ -33,6 +34,7 @@ protected:
     float m_Damage;
     float m_Range;
     float m_FireRate;
+    bool m_IsFlipped;
     sf::Vector2f m_TargetPosition;
     float m_RotationSpeed;
     bool m_HasTarget;

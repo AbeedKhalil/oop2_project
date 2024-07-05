@@ -141,6 +141,24 @@ m_CanUpgradeTurret2(false), m_FirstTurretAdded(false) {
     m_Tank3Icon.setScale(iconScale * 0.35f, iconScale * 0.35f);
     m_TurretIcon1.setScale(iconScale * 0.5f, iconScale * 0.5f);
     m_TurretIcon2.setScale(iconScale * 0.5f, iconScale * 0.5f);
+
+    // Initialize turret price texts
+    m_TurretPrice1.setFont(m_Font);
+    m_TurretPrice2.setFont(m_Font);
+
+    m_TurretPrice1.setCharacterSize(20);
+    m_TurretPrice2.setCharacterSize(20);
+
+    m_TurretPrice1.setFillColor(sf::Color::Black);
+    m_TurretPrice2.setFillColor(sf::Color::Black);
+
+    m_TurretPrice1.setString("(" + std::to_string(TURRET_COST) + "$)");
+    m_TurretPrice2.setString("(" + std::to_string(TURRET_COST) + "$)");
+
+    // Position the turret price texts
+    float turretPriceOffsetY = 80.0f;
+    m_TurretPrice1.setPosition(startX + spacing * 6 + 18.0f, startY + turretPriceOffsetY);
+    m_TurretPrice2.setPosition(startX + spacing * 7 + 18.0f, startY + turretPriceOffsetY);
 }
 
 PlayState::~PlayState() {
@@ -233,6 +251,7 @@ void PlayState::update() {
     m_Castle->turretsAttack(m_EnemyUnits);
     m_EnemyCastle->turretsAttack(m_PlayerUnits);
 
+    updateTurretPrices();
     updateResources();
     accumulateResources();
     updateEnemyAI();
@@ -240,6 +259,19 @@ void PlayState::update() {
     m_EnemyCastle->update();
     updateTurretButtons();
     updateIconBackgrounds();
+}
+
+void PlayState::updateTurretPrices() {
+    m_TurretPrice1.setString("(" + std::to_string(TURRET_COST) + "$)");
+    m_TurretPrice2.setString("(" + std::to_string(TURRET_COST) + "$)");
+
+    // If you want to show upgrade costs for existing turrets:
+    if (m_Castle->hasTurret(0)) {
+        m_TurretPrice1.setString("(" + std::to_string(TURRET_UPGRADE_COST) + "$)");
+    }
+    if (m_Castle->hasTurret(1)) {
+        m_TurretPrice2.setString("(" + std::to_string(TURRET_UPGRADE_COST) + "$)");
+    }
 }
 
 void PlayState::checkUnitsAttackingCastle() {
@@ -305,6 +337,10 @@ void PlayState::render(sf::RenderWindow& window) {
     window.draw(m_TurretIcon1);
     window.draw(m_TurretIcon2);
 
+    // Draw turret prices
+    window.draw(m_TurretPrice1);
+    window.draw(m_TurretPrice2);
+
     for (auto& unit : m_PlayerUnits) {
         unit->render(window);
     }
@@ -357,8 +393,8 @@ void PlayState::updateResources() {
 }
 
 void PlayState::accumulateResources() {
-    if (m_ResourceClock.getElapsedTime().asSeconds() >= 1.0f) {
-        m_Game->addResources(10); // Add 10 resources every second
+    if (m_ResourceClock.getElapsedTime().asSeconds() >= 30.0f) {
+        m_Game->addResources(200); // Add 200 resources every 30 seconds
         m_ResourceClock.restart();
     }
 }
@@ -572,6 +608,7 @@ void PlayState::manageUnits() {
 
         if (!inCombat && playerUnit->getState() == UnitState::FIGHTING) {
             playerUnit->setState(UnitState::MOVING);
+            playerUnit->engageCombat(nullptr); // Clear the target
         }
     }
 
@@ -608,6 +645,8 @@ void PlayState::manageUnits() {
 
         if (!inCombat && enemyUnit->getState() == UnitState::FIGHTING) {
             enemyUnit->setState(UnitState::MOVING);
+            enemyUnit->engageCombat(nullptr); // Clear the target
+
         }
     }
 
@@ -625,7 +664,7 @@ void PlayState::manageUnits() {
     m_EnemyUnits.erase(std::remove_if(m_EnemyUnits.begin(), m_EnemyUnits.end(),
         [this](Unit* unit) {
             if (!unit->isAlive()) {
-                m_Game->addResources(unit->getGoldWorth() / 2);
+                m_Game->addResources(unit->getGoldWorth() * 0.75);
                 delete unit;
                 return true;
             }

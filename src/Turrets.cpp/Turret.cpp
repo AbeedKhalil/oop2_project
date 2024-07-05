@@ -3,9 +3,10 @@
 #include <numbers>
 
 Turret::Turret(float damage, float range, float fireRate, const std::string& texturePath, float x, float y)
-    : m_Damage(damage), m_Range(range), m_FireRate(fireRate), m_RotationSpeed(2.0f), m_HasTarget(false) {
+    : m_Damage(damage), m_Range(range), m_FireRate(fireRate), m_RotationSpeed(2.0f), m_HasTarget(false), m_IsFlipped(false) {
     m_Sprite.setTexture(TextureManager::getInstance().getTexture(texturePath));
     m_Sprite.setPosition(x, y);
+    //m_IsFlipped = false;
 
     // Adjust this scale factor to make the turrets smaller
     float scaleFactor = 0.3f; // You can adjust this value as needed
@@ -34,7 +35,18 @@ void Turret::setRotationSpeed(float speed) {
 void Turret::rotateTowardsTarget() {
     if (m_HasTarget) {
         sf::Vector2f direction = m_TargetPosition - m_Sprite.getPosition();
-        float desiredAngle = atan2(direction.y, direction.x) * 180 / 3.14159265358979323846;
+
+        // Invert the vertical direction for flipped turrets
+        if (m_IsFlipped) {
+            direction.y = -direction.y;
+        }
+
+        float desiredAngle = atan2(direction.y, direction.x) * 180 / std::numbers::pi;
+
+        // Adjust the angle for flipped turrets
+        if (m_IsFlipped) {
+            desiredAngle = 180 - desiredAngle;
+        }
 
         float currentRotation = m_Sprite.getRotation();
         float angleDifference = desiredAngle - currentRotation;

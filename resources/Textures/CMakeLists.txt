@@ -5,6 +5,8 @@ add_subdirectory (AirBombs)
 add_subdirectory (Explosion)
 
 configure_file ("Help.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("Names-Intro.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("Logo-Intro.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("Win.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("Castle.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("GameOver.png" ${CMAKE_BINARY_DIR} COPYONLY)

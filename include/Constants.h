@@ -48,20 +48,20 @@ const float TURRET_2_OFFSET_X = 20.0f;
 const float TURRET_2_OFFSET_Y = 75.0f;
 
 // Unit health values
-const int SHOOTER_1_HEALTH = 300;
-const int SHOOTER_2_HEALTH = 350;
-const int SHOOTER_3_HEALTH = 130;
-const int TANK_1_HEALTH = 180;
-const int TANK_2_HEALTH = 250;
-const int TANK_3_HEALTH = 750;
+const int SHOOTER_1_HEALTH = 500;
+const int SHOOTER_2_HEALTH = 550;
+const int SHOOTER_3_HEALTH = 330;
+const int TANK_1_HEALTH = 380;
+const int TANK_2_HEALTH = 450;
+const int TANK_3_HEALTH = 950;
 
 // Unit damage values
-const int SHOOTER_1_DAMAGE = 20;
-const int SHOOTER_2_DAMAGE = 35;
-const int SHOOTER_3_DAMAGE = 30;
-const int TANK_1_DAMAGE = 40;
-const int TANK_2_DAMAGE = 50;
-const int TANK_3_DAMAGE = 70;
+const int SHOOTER_1_DAMAGE = 50;
+const int SHOOTER_2_DAMAGE = 65;
+const int SHOOTER_3_DAMAGE = 60;
+const int TANK_1_DAMAGE = 70;
+const int TANK_2_DAMAGE = 80;
+const int TANK_3_DAMAGE = 100;
 
 // Unit gold worth
 const int SHOOTER_1_WORTH = 100;

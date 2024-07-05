@@ -36,7 +36,7 @@ MenuState::MenuState(Game* game) : State(game) {
     m_BackgroundSprite.setTexture(TextureManager::getInstance().getTexture("MainMenu.png"));
 
     // Load and play background music
-    SoundManager::getInstance().loadMusic("path/to/background_music.ogg");
+    SoundManager::getInstance().loadMusic("MainMenu.ogg");
     SoundManager::getInstance().playMusic();
 }
 

@@ -16,3 +16,8 @@ void Shooter3::update() {
 void Shooter3::render(sf::RenderWindow& window) {
     Unit::render(window); // Call base class render
 }
+
+void Shooter3::playShootSound()
+{
+    SoundManager::getInstance().playSound("shoot");
+}

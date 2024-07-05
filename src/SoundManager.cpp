@@ -20,6 +20,14 @@ void SoundManager::playSound(const std::string& name) {
     }
 }
 
+void SoundManager::setMusicVolume(float volume) {
+    m_Music.setVolume(volume);
+}
+
+void SoundManager::stopMusic() {
+    m_Music.stop();
+}
+
 void SoundManager::loadMusic(const std::string& filename) {
     if (!m_Music.openFromFile(filename)) {
         std::cerr << "ERROR::SOUNDMANEGER::Could not load sound\n";

@@ -20,6 +20,10 @@ GameOverState::GameOverState(Game* game) : State(game) {
 
     // Load background texture
     m_BackgroundSprite.setTexture(TextureManager::getInstance().getTexture("GameOver.png"));
+
+    // Load and play background music
+    SoundManager::getInstance().loadMusic("GameOver.ogg");
+    SoundManager::getInstance().playMusic();
 }
 
 void GameOverState::handleInput(sf::Event event) {

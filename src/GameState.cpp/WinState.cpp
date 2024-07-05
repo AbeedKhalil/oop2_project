@@ -23,6 +23,10 @@ WinState::WinState(Game* game) : State(game) {
 
     // Load background texture
     m_BackgroundSprite.setTexture(TextureManager::getInstance().getTexture("Win.png"));
+
+    // Load and play background music
+    SoundManager::getInstance().loadMusic("path/to/win_music.ogg");
+    SoundManager::getInstance().playMusic();
 }
 
 void WinState::handleInput(sf::Event event) {

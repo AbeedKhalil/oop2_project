@@ -31,6 +31,7 @@ public:
     float getAttackRange() const;
     void setTargetCastle(Castle* castle) { m_TargetCastle = castle; }
     void setTargetEnemyCastle(EnemyCastle* enemyCastle) { m_TargetCastle = enemyCastle; }
+    virtual void playShootSound();
 
 
     // Movement-related methods

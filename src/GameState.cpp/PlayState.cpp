@@ -1,6 +1,8 @@
 #include "PlayState.h"
 #include "Game.h"
 #include "PauseState.h"
+#include "WinState.h"
+#include "GameOverState.h"
 #include "Shooter1.h"
 #include "Shooter2.h"
 #include "Shooter3.h"
@@ -210,6 +212,16 @@ void PlayState::update() {
 
     for (auto& unit : m_EnemyUnits) {
         unit->update();
+    }
+
+    if (m_Castle->isDestroyed()) {
+        m_Game->pushState(new GameOverState(m_Game));
+        return;
+    }
+
+    if (m_EnemyCastle->isDestroyed()) {
+        m_Game->pushState(new WinState(m_Game));
+        return;
     }
 
     adjustEnemyUnitPositions();

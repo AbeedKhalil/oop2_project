@@ -13,9 +13,9 @@ public:
 
 private:
     sf::Font m_Font;
-    sf::Text m_GameOverText;
     sf::Text m_RestartText;
     sf::Text m_ExitText;
+    sf::Sprite m_BackgroundSprite;
 
     // Helper methods for user interaction
     void handleMouseHover(sf::RenderWindow& window);

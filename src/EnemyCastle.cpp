@@ -43,5 +43,6 @@ void EnemyCastle::addTurret(int turretType, int position) {
     // Flip the turret sprite horizontally for enemy turrets
     if (m_Turrets[position]) {
         m_Turrets[position]->flipSprite();
+        m_Turrets[position]->setFlipped(true);
     }
 }

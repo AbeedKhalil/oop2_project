@@ -30,9 +30,9 @@ const int TURRET_UPGRADE_COST = 1500;
 const float TURRET_1_DAMAGE = 30.0f;
 const float TURRET_2_DAMAGE = 50.0f;
 const float TURRET_3_DAMAGE = 80.0f;
-const float TURRET_1_RANGE = 200.0f;
-const float TURRET_2_RANGE = 250.0f;
-const float TURRET_3_RANGE = 300.0f;
+const float TURRET_1_RANGE = 250.0f;
+const float TURRET_2_RANGE = 300.0f;
+const float TURRET_3_RANGE = 400.0f;
 const float TURRET_1_FIRE_RATE = 1.0f;  // Shots per second
 const float TURRET_2_FIRE_RATE = 1.5f;
 const float TURRET_3_FIRE_RATE = 2.0f;
@@ -48,12 +48,12 @@ const float TURRET_2_OFFSET_X = 20.0f;
 const float TURRET_2_OFFSET_Y = 75.0f;
 
 // Unit health values
-const int SHOOTER_1_HEALTH = 500;
-const int SHOOTER_2_HEALTH = 550;
-const int SHOOTER_3_HEALTH = 330;
-const int TANK_1_HEALTH = 380;
-const int TANK_2_HEALTH = 450;
-const int TANK_3_HEALTH = 950;
+const int SHOOTER_1_HEALTH = 400;
+const int SHOOTER_2_HEALTH = 450;
+const int SHOOTER_3_HEALTH = 230;
+const int TANK_1_HEALTH = 280;
+const int TANK_2_HEALTH = 350;
+const int TANK_3_HEALTH = 850;
 
 // Unit damage values
 const int SHOOTER_1_DAMAGE = 50;
@@ -85,7 +85,7 @@ const float SHOOTER_2_ATTACK_RANGE = 180.0f;
 const float SHOOTER_3_ATTACK_RANGE = 200.0f;
 const float TANK_1_ATTACK_RANGE = 50.0f;
 const float TANK_2_ATTACK_RANGE = 70.0f;
-const float TANK_3_ATTACK_RANGE = 140.0f;
+const float TANK_3_ATTACK_RANGE = 200.0f;
 
 // Unit spacing
 const float SHOOTER_1_SPACING = 70.0f;

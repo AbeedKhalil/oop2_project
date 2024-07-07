@@ -40,12 +40,12 @@ m_CanUpgradeTurret2(false), m_FirstTurretAdded(false) {
         m_EnemyResources = 1000;
         break;
     case Difficulty::HARD:
-        m_EnemySpawnInterval = 3.0f;
+        m_EnemySpawnInterval = 5.0f;
         m_EnemyResources = 1500;
         break;
     case Difficulty::IMPOSSIBLE:
-        m_EnemySpawnInterval = 2.0f;
-        m_EnemyResources = 2000;
+        m_EnemySpawnInterval = 4.0f;
+        m_EnemyResources = 4000;
         break;
     }
 
@@ -450,37 +450,37 @@ EnemyUnit* PlayState::createRandomEnemyUnit() {
     case 0:
         if (m_EnemyResources >= SHOOTER_1_WORTH) {
             m_EnemyResources -= SHOOTER_1_WORTH;
-            return new EnemyUnit(SHOOTER_1_SPEED, SHOOTER_1_HEALTH - SHOOTER_1_DAMAGE, SHOOTER_1_DAMAGE, SHOOTER_1_ATTACK_RANGE, SHOOTER_1_WORTH, "skeleton1-Idle_0.png", spawnX, spawnY + 25.0f, SOLDIER_TEXTURE_WIDTH, SOLDIER_TEXTURE_HEIGHT, SHOOTER_1_SPACING);
+            return new EnemyUnit(SHOOTER_1_SPEED - 5.0f, SHOOTER_1_HEALTH - SHOOTER_1_DAMAGE, SHOOTER_1_DAMAGE, SHOOTER_1_ATTACK_RANGE, SHOOTER_1_WORTH, "skeleton1-Idle_0.png", spawnX, spawnY + 25.0f, SOLDIER_TEXTURE_WIDTH, SOLDIER_TEXTURE_HEIGHT, SHOOTER_1_SPACING);
         }
         break;
     case 1:
         if (m_EnemyResources >= SHOOTER_2_WORTH) {
             m_EnemyResources -= SHOOTER_2_WORTH;
-            return new EnemyUnit(SHOOTER_2_SPEED, SHOOTER_2_HEALTH - SHOOTER_2_DAMAGE, SHOOTER_2_DAMAGE, SHOOTER_2_ATTACK_RANGE, SHOOTER_2_WORTH, "skeleton6-Idle_0.png", spawnX, spawnY + 25.0f, SOLDIER_TEXTURE_WIDTH, SOLDIER_TEXTURE_HEIGHT, SHOOTER_2_SPACING);
+            return new EnemyUnit(SHOOTER_2_SPEED - 5.0f, SHOOTER_2_HEALTH - SHOOTER_2_DAMAGE, SHOOTER_2_DAMAGE, SHOOTER_2_ATTACK_RANGE, SHOOTER_2_WORTH, "skeleton6-Idle_0.png", spawnX, spawnY + 25.0f, SOLDIER_TEXTURE_WIDTH, SOLDIER_TEXTURE_HEIGHT, SHOOTER_2_SPACING);
         }
         break;
     case 2:
         if (m_EnemyResources >= SHOOTER_3_WORTH) {
             m_EnemyResources -= SHOOTER_3_WORTH;
-            return new EnemyUnit(SHOOTER_3_SPEED, SHOOTER_3_HEALTH - SHOOTER_3_DAMAGE, SHOOTER_3_DAMAGE, SHOOTER_3_ATTACK_RANGE, SHOOTER_3_WORTH, "skeleton11-Idle_0.png", spawnX, spawnY + 25.0f, SOLDIER_TEXTURE_WIDTH, SOLDIER_TEXTURE_HEIGHT, SHOOTER_3_SPACING);
+            return new EnemyUnit(SHOOTER_3_SPEED - 5.0f, SHOOTER_3_HEALTH - SHOOTER_3_DAMAGE, SHOOTER_3_DAMAGE, SHOOTER_3_ATTACK_RANGE, SHOOTER_3_WORTH, "skeleton11-Idle_0.png", spawnX, spawnY + 25.0f, SOLDIER_TEXTURE_WIDTH, SOLDIER_TEXTURE_HEIGHT, SHOOTER_3_SPACING);
         }
         break;
     case 3:
         if (m_EnemyResources >= TANK_1_WORTH) {
             m_EnemyResources -= TANK_1_WORTH;
-            return new EnemyUnit(TANK_1_SPEED, TANK_1_HEALTH - TANK_1_DAMAGE, TANK_1_DAMAGE, TANK_1_ATTACK_RANGE, TANK_1_WORTH, "skeleton8-Idle_0.png", spawnX, spawnY + 25.0f, TANK_TEXTURE_WIDTH * 0.5f, TANK_TEXTURE_HEIGHT * 0.5f, TANK_1_SPACING);
+            return new EnemyUnit(TANK_1_SPEED - 5.0f, TANK_1_HEALTH - TANK_1_DAMAGE, TANK_1_DAMAGE, TANK_1_ATTACK_RANGE, TANK_1_WORTH, "skeleton8-Idle_0.png", spawnX, spawnY + 25.0f, TANK_TEXTURE_WIDTH * 0.5f, TANK_TEXTURE_HEIGHT * 0.5f, TANK_1_SPACING);
         }
         break;
     case 4:
         if (m_EnemyResources >= TANK_2_WORTH) {
             m_EnemyResources -= TANK_2_WORTH;
-            return new EnemyUnit(TANK_2_SPEED, TANK_2_HEALTH - TANK_2_DAMAGE, TANK_2_DAMAGE, TANK_2_ATTACK_RANGE, TANK_2_WORTH, "skeleton10-Idle_0.png", spawnX, spawnY + 25.0f, TANK_TEXTURE_WIDTH * 0.5f, TANK_TEXTURE_HEIGHT * 0.5f, TANK_2_SPACING);
+            return new EnemyUnit(TANK_2_SPEED - 5.0f, TANK_2_HEALTH - TANK_2_DAMAGE, TANK_2_DAMAGE, TANK_2_ATTACK_RANGE, TANK_2_WORTH, "skeleton10-Idle_0.png", spawnX, spawnY + 25.0f, TANK_TEXTURE_WIDTH * 0.5f, TANK_TEXTURE_HEIGHT * 0.5f, TANK_2_SPACING);
         }
         break;
     case 5:
         if (m_EnemyResources >= TANK_3_WORTH) {
             m_EnemyResources -= TANK_3_WORTH;
-            return new EnemyUnit(TANK_3_SPEED, TANK_3_HEALTH - TANK_3_DAMAGE, TANK_3_DAMAGE, TANK_3_ATTACK_RANGE, TANK_3_WORTH, "skeleton12-Idle_0.png", spawnX, spawnY, TANK_TEXTURE_WIDTH, TANK_TEXTURE_HEIGHT, TANK_3_SPACING);
+            return new EnemyUnit(TANK_3_SPEED - 5.0f, TANK_3_HEALTH - TANK_3_DAMAGE, TANK_3_DAMAGE, TANK_3_ATTACK_RANGE, TANK_3_WORTH, "skeleton12-Idle_0.png", spawnX, spawnY, TANK_TEXTURE_WIDTH, TANK_TEXTURE_HEIGHT, TANK_3_SPACING);
         }
         break;
     }
@@ -671,7 +671,7 @@ void PlayState::manageUnits() {
     m_EnemyUnits.erase(std::remove_if(m_EnemyUnits.begin(), m_EnemyUnits.end(),
         [this](Unit* unit) {
             if (!unit->isAlive()) {
-                m_Game->addResources(unit->getGoldWorth() * 0.75);
+                m_Game->addResources(unit->getGoldWorth());
                 delete unit;
                 return true;
             }

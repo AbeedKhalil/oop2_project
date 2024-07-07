@@ -9,7 +9,7 @@ HelpState::HelpState(Game* game) : State(game) {
 
     // Set up the help text
     m_HelpText.setFont(m_Font);
-    m_HelpText.setString("Help Information:\n- Use Mouse keys to emplace units\n- Press 'P' to pause\n- Press 'Esc' to exit");
+    m_HelpText.setString("Help Information:\n- Use Mouse to emplace units\n- Press 'P' to pause\n- Press 'Esc' to exit\n\n\n your jop:\n You must attack the enemy army and destroy the enemy castle");
     m_HelpText.setCharacterSize(24);
     m_HelpText.setPosition(50, 50);
 
